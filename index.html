@@ -12,13 +12,18 @@
       <span class="header__logo-mark" aria-hidden="true">Шиномонтаж PRO</span>
       <span class="header__descriptor">Работаем 24/7</span>
     </a>
-    <nav class="header__nav" aria-label="Главное меню">
+    <button type="button" class="header__burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="header-nav" id="header-burger">
+      <span class="header__burger-line" aria-hidden="true"></span>
+      <span class="header__burger-line" aria-hidden="true"></span>
+      <span class="header__burger-line" aria-hidden="true"></span>
+    </button>
+    <nav id="header-nav" class="header__nav" aria-label="Главное меню">
       <ul class="header__nav-list">
-        <li><a href="#calculator">Рассчитать стоимость</a></li>
-        <li><a href="#why-us">Почему мы</a></li>
-        <li><a href="#services">Услуги</a></li>
-        <li><a href="#reviews">Отзывы</a></li>
-        <li><a href="#contacts">Контакты</a></li>
+        <li><a href="#calculator" class="nav-link">Рассчитать стоимость</a></li>
+        <li><a href="#why-us" class="nav-link">Почему мы</a></li>
+        <li><a href="#services" class="nav-link">Услуги</a></li>
+        <li><a href="#reviews" class="nav-link">Отзывы</a></li>
+        <li><a href="#contacts" class="nav-link">Контакты</a></li>
       </ul>
     </nav>
     <a href="tel:+78001234567" class="header__phone" aria-label="Позвонить">
@@ -28,8 +33,16 @@
       Позвонить
     </a>
     <ul class="header__messengers" aria-label="Мессенджеры">
-      <li><a href="#" class="header__messenger" aria-label="WhatsApp">WhatsApp</a></li>
-      <li><a href="#" class="header__messenger" aria-label="Telegram">Telegram</a></li>
+      <li><a href="#" class="header__messenger icon-whatsapp" aria-label="WhatsApp">
+        <span class="header__messenger-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" role="img" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        </span>
+      </a></li>
+      <li><a href="#" class="header__messenger icon-telegram" aria-label="Telegram">
+        <span class="header__messenger-icon" aria-hidden="true">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" role="img" focusable="false"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.419-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+        </span>
+      </a></li>
     </ul>
   </header>
 
@@ -39,13 +52,26 @@
       <div class="hero__content">
         <h1 id="hero-heading" class="hero__title">Переобувка авто за 30 минут без очередей. Запись строго по времени.</h1>
         <p class="hero__subhead">Полный комплекс от 2500 руб. + Пакеты для шин в подарок.</p>
-        <a href="#calculator" class="hero__cta">Записаться на удобное время</a>
+        <a href="#calculator" class="hero__cta" id="hero-booking-cta" data-action="open-booking-modal">Записаться на удобное время</a>
       </div>
     </section>
 
     <section id="calculator" class="calculator" aria-labelledby="calculator-heading">
       <h2 id="calculator-heading" class="calculator__title">Рассчитать стоимость</h2>
       <form class="calculator__form" aria-label="Калькулятор стоимости услуг">
+        <fieldset class="calculator__fieldset calculator__fieldset--jobtype">
+          <legend class="calculator__legend">Тип работ</legend>
+          <div class="calculator__options calculator__options--row">
+            <label class="calculator__tile">
+              <input type="radio" name="jobtype" value="full" data-calc="jobtype" checked class="calculator__input-hidden">
+              <span class="calculator__tile-text">Полная переобувка</span>
+            </label>
+            <label class="calculator__tile calculator__tile--wheels">
+              <input type="radio" name="jobtype" value="wheels" data-calc="jobtype" class="calculator__input-hidden">
+              <span class="calculator__tile-text">Колеса в сборе</span>
+            </label>
+          </div>
+        </fieldset>
         <fieldset class="calculator__fieldset calculator__fieldset--vehicle">
           <legend class="calculator__legend">Тип авто</legend>
           <div class="calculator__options calculator__options--row">
@@ -53,9 +79,9 @@
               <input type="radio" name="vehicle" value="car" data-calc="vehicle" checked class="calculator__input-hidden">
               <span class="calculator__tile-text">Легковая</span>
             </label>
-            <label class="calculator__tile">
-              <input type="radio" name="vehicle" value="jeep" data-calc="vehicle" class="calculator__input-hidden">
-              <span class="calculator__tile-text">Джип / SUV</span>
+            <label class="calculator__tile calculator__tile--suv">
+              <input type="radio" name="vehicle" value="suv" data-calc="vehicle" class="calculator__input-hidden">
+              <span class="calculator__tile-text">Кроссовер / Внедорожник</span>
             </label>
             <label class="calculator__tile">
               <input type="radio" name="vehicle" value="minibus" data-calc="vehicle" class="calculator__input-hidden">
@@ -80,26 +106,28 @@
             </label>
           </div>
         </div>
-        <fieldset class="calculator__fieldset calculator__fieldset--service">
-          <legend class="calculator__legend">Вид услуги</legend>
+        <fieldset class="calculator__fieldset calculator__fieldset--options">
+          <legend class="calculator__legend">Опции</legend>
           <div class="calculator__options calculator__options--wrap">
-            <label class="calculator__tile calculator__tile--checkbox">
-              <input type="checkbox" name="service" value="complex" data-calc="service" class="calculator__input-hidden">
-              <span class="calculator__tile-text">Комплекс</span>
+            <label class="calculator__tile calculator__tile--checkbox calculator__tile--runflat">
+              <input type="checkbox" name="runflat" value="runflat" data-calc="runflat" class="calculator__input-hidden">
+              <span class="calculator__tile-text">Шины RunFlat</span>
+            </label>
+            <label class="calculator__tile calculator__tile--checkbox calculator__tile--lowprofile">
+              <input type="checkbox" name="lowprofile" value="lowprofile" data-calc="lowprofile" class="calculator__input-hidden">
+              <span class="calculator__tile-text">Низкий профиль <span class="sub-text">(≤45)</span></span>
             </label>
             <label class="calculator__tile calculator__tile--checkbox">
-              <input type="checkbox" name="service" value="repair" data-calc="service" class="calculator__input-hidden">
-              <span class="calculator__tile-text">Ремонт</span>
-            </label>
-            <label class="calculator__tile calculator__tile--checkbox">
-              <input type="checkbox" name="service" value="balance" data-calc="service" class="calculator__input-hidden">
-              <span class="calculator__tile-text">Балансировка</span>
+              <input type="checkbox" name="valves" value="valves" data-calc="valves" class="calculator__input-hidden">
+              <span class="calculator__tile-text">Вентили</span>
             </label>
           </div>
         </fieldset>
-        <div class="calculator__output">
+        <div class="calculator__output" id="calculator-output">
           <span class="calculator__output-label">Итого</span>
-          <output class="calculator__total-price" data-calc="result" aria-live="polite">—</output>
+          <output class="calculator__total-price" id="total-price" data-calc="result" aria-live="polite">—</output>
+          <div class="price-subtitle">Цена за комплект (4 колеса)</div>
+          <ul id="service-list" class="service-list"></ul>
         </div>
         <button type="button" class="calculator__cta">Зафиксировать цену</button>
       </form>
@@ -169,16 +197,57 @@
     </section>
 
     <section id="contacts" class="location" aria-labelledby="contacts-heading">
-      <h2 id="contacts-heading" class="location__title">Контакты и карта</h2>
-      <div class="location__map" aria-label="Карта">
-        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80" alt="Схема проезда и зона покрытия выездного шиномонтажа" width="800" height="400" loading="lazy">
+      <h2 id="contacts-heading" class="location__title">Контакты и Схема проезда</h2>
+      <p class="location__intro">Приезжайте к нам — стационарный шиномонтаж по адресу ниже.</p>
+      <div class="location__container">
+        <div class="location__info">
+          <address class="location__address">
+            <span class="location__label">Адрес</span>
+            г. Москва, ул. Примерная, д. 10, стр. 2
+          </address>
+          <p class="location__landmark">
+            <span class="location__label">Ориентир</span>
+            Въезд через синие ворота, ориентир — вывеска «Шиномонтаж».
+          </p>
+          <p class="location__hours">
+            <span class="location__label">Режим работы</span>
+            Работаем 24/7
+          </p>
+          <div class="location__phone-row">
+            <a href="tel:+78001234567" class="location__phone" aria-label="Позвонить">+7 800 123-45-67</a>
+            <ul class="header__messengers" aria-label="Мессенджеры">
+              <li><a href="#" class="header__messenger icon-whatsapp" aria-label="WhatsApp">
+                <span class="header__messenger-icon" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" role="img" focusable="false"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                </span>
+              </a></li>
+              <li><a href="#" class="header__messenger icon-telegram" aria-label="Telegram">
+                <span class="header__messenger-icon" aria-hidden="true">
+                  <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor" role="img" focusable="false"><path d="M11.944 0A12 12 0 0 0 0 12a12 12 0 0 0 12 12 12 12 0 0 0 12-12A12 12 0 0 0 12 0a12 12 0 0 0-.056 0zm4.962 7.224c.1-.002.321.023.465.14a.506.506 0 0 1 .171.325c.016.093.036.306.02.472-.18 1.898-.962 6.502-1.36 8.627-.168.9-.499 1.201-.82 1.23-.696.065-1.225-.46-1.9-.902-1.056-.693-1.653-1.124-2.678-1.8-1.185-.78-.419-1.21.258-1.91.177-.184 3.247-2.977 3.307-3.23.007-.032.014-.15-.056-.212s-.174-.041-.249-.024c-.106.024-1.793 1.14-5.061 3.345-.48.33-.913.49-1.302.48-.428-.008-1.252-.241-1.865-.44-.752-.245-1.349-.374-1.297-.789.027-.216.325-.437.893-.663 3.498-1.524 5.83-2.529 6.998-3.014 3.332-1.386 4.025-1.627 4.476-1.635z"/></svg>
+                </span>
+              </a></li>
+            </ul>
+          </div>
+        </div>
+        <a href="https://yandex.ru/maps/-/CPAfvV~t" class="location__map-wrap" target="_blank" rel="noopener noreferrer" aria-label="Открыть схему проезда в Яндекс.Картах">
+          <div class="location__map-placeholder">
+            <span class="location__map-pin" aria-hidden="true">📍</span>
+            <span class="location__map-btn">Открыть на карте</span>
+          </div>
+        </a>
       </div>
-      <address class="location__address">
-        г. Москва, ул. Примерная, д. 1<br>
-        Зона выезда: в пределах МКАД — до 40 мин.
-      </address>
     </section>
   </main>
+
+  <div id="booking-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title" aria-hidden="true">
+    <div class="modal__backdrop" aria-hidden="true"></div>
+    <div class="modal__box">
+      <h2 id="booking-modal-title" class="modal__title">Записаться на удобное время</h2>
+      <p class="modal__text">Позвоните нам или напишите в мессенджер — подберём слот и зафиксируем цену по калькулятору.</p>
+      <a href="tel:+78001234567" class="modal__cta">Позвонить для записи</a>
+      <button type="button" class="modal__close" aria-label="Закрыть окно">Закрыть</button>
+    </div>
+  </div>
 
   <footer class="footer" role="contentinfo">
     <p class="footer__copyright">© 2026 Шиномонтаж PRO. Все права защищены.</p>
