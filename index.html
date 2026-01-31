@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Шиномонтаж PRO — переобувка авто за 30 минут</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+  <header class="header" role="banner">
+    <a href="#" class="header__logo" aria-label="На главную">
+      <span class="header__logo-mark" aria-hidden="true">Шиномонтаж PRO</span>
+      <span class="header__descriptor">Работаем 24/7</span>
+    </a>
+    <nav class="header__nav" aria-label="Главное меню">
+      <ul class="header__nav-list">
+        <li><a href="#calculator">Рассчитать стоимость</a></li>
+        <li><a href="#why-us">Почему мы</a></li>
+        <li><a href="#services">Услуги</a></li>
+        <li><a href="#reviews">Отзывы</a></li>
+        <li><a href="#contacts">Контакты</a></li>
+      </ul>
+    </nav>
+    <a href="tel:+78001234567" class="header__phone" aria-label="Позвонить">
+      <span class="header__phone-icon" aria-hidden="true">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" focusable="false" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+      </span>
+      Позвонить
+    </a>
+    <ul class="header__messengers" aria-label="Мессенджеры">
+      <li><a href="#" class="header__messenger" aria-label="WhatsApp">WhatsApp</a></li>
+      <li><a href="#" class="header__messenger" aria-label="Telegram">Telegram</a></li>
+    </ul>
+  </header>
+
+  <main>
+    <section id="hero" class="hero" aria-labelledby="hero-heading">
+      <div class="hero__bg" aria-hidden="true"></div>
+      <div class="hero__content">
+        <h1 id="hero-heading" class="hero__title">Переобувка авто за 30 минут без очередей. Запись строго по времени.</h1>
+        <p class="hero__subhead">Полный комплекс от 2500 руб. + Пакеты для шин в подарок.</p>
+        <a href="#calculator" class="hero__cta">Записаться на удобное время</a>
+      </div>
+    </section>
+
+    <section id="calculator" class="calculator" aria-labelledby="calculator-heading">
+      <h2 id="calculator-heading" class="calculator__title">Рассчитать стоимость</h2>
+      <form class="calculator__form" aria-label="Калькулятор стоимости услуг">
+        <fieldset class="calculator__fieldset calculator__fieldset--vehicle">
+          <legend class="calculator__legend">Тип авто</legend>
+          <div class="calculator__options calculator__options--row">
+            <label class="calculator__tile">
+              <input type="radio" name="vehicle" value="car" data-calc="vehicle" checked class="calculator__input-hidden">
+              <span class="calculator__tile-text">Легковая</span>
+            </label>
+            <label class="calculator__tile">
+              <input type="radio" name="vehicle" value="jeep" data-calc="vehicle" class="calculator__input-hidden">
+              <span class="calculator__tile-text">Джип / SUV</span>
+            </label>
+            <label class="calculator__tile">
+              <input type="radio" name="vehicle" value="minibus" data-calc="vehicle" class="calculator__input-hidden">
+              <span class="calculator__tile-text">Микроавтобус</span>
+            </label>
+          </div>
+        </fieldset>
+        <div class="calculator__radius-wrap" role="group" aria-labelledby="calc-radius-legend">
+          <span id="calc-radius-legend" class="calculator__legend">Радиус (R13–R22)</span>
+          <div class="calculator__radius-options">
+            <label class="calculator__tile calculator__tile--radius">
+              <input type="radio" name="radius" value="r13-15" data-calc="radius" class="calculator__input-hidden">
+              <span class="calculator__tile-text">R13–R15</span>
+            </label>
+            <label class="calculator__tile calculator__tile--radius">
+              <input type="radio" name="radius" value="r16-18" data-calc="radius" class="calculator__input-hidden" checked>
+              <span class="calculator__tile-text">R16–R18</span>
+            </label>
+            <label class="calculator__tile calculator__tile--radius">
+              <input type="radio" name="radius" value="r19-22" data-calc="radius" class="calculator__input-hidden">
+              <span class="calculator__tile-text">R19–R22</span>
+            </label>
+          </div>
+        </div>
+        <fieldset class="calculator__fieldset calculator__fieldset--service">
+          <legend class="calculator__legend">Вид услуги</legend>
+          <div class="calculator__options calculator__options--wrap">
+            <label class="calculator__tile calculator__tile--checkbox">
+              <input type="checkbox" name="service" value="complex" data-calc="service" class="calculator__input-hidden">
+              <span class="calculator__tile-text">Комплекс</span>
+            </label>
+            <label class="calculator__tile calculator__tile--checkbox">
+              <input type="checkbox" name="service" value="repair" data-calc="service" class="calculator__input-hidden">
+              <span class="calculator__tile-text">Ремонт</span>
+            </label>
+            <label class="calculator__tile calculator__tile--checkbox">
+              <input type="checkbox" name="service" value="balance" data-calc="service" class="calculator__input-hidden">
+              <span class="calculator__tile-text">Балансировка</span>
+            </label>
+          </div>
+        </fieldset>
+        <div class="calculator__output">
+          <span class="calculator__output-label">Итого</span>
+          <output class="calculator__total-price" data-calc="result" aria-live="polite">—</output>
+        </div>
+        <button type="button" class="calculator__cta">Зафиксировать цену</button>
+      </form>
+    </section>
+
+    <section id="why-us" class="usp" aria-labelledby="why-us-heading">
+      <h2 id="why-us-heading" class="usp__title">Почему мы, а не гараж дяди Вани</h2>
+      <div class="usp__grid">
+        <article class="usp__item">
+          <img src="https://images.unsplash.com/photo-1625047509168-163333cb0b69?w=400&q=80" alt="Профессиональное оборудование для шиномонтажа" class="usp__item-img" width="120" height="120" loading="lazy">
+          <h3 class="usp__item-title">Не царапаем диски</h3>
+          <p class="usp__item-text">Оборудование Hofmann с пластиковыми насадками.</p>
+        </article>
+        <article class="usp__item">
+          <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&q=80" alt="Гарантия на балансировку колёс" class="usp__item-img" width="120" height="120" loading="lazy">
+          <h3 class="usp__item-title">Гарантия 14 дней</h3>
+          <p class="usp__item-text">Честная гарантия на балансировку и грыжи.</p>
+        </article>
+        <article class="usp__item">
+          <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=400&q=80" alt="Комфортная зона ожидания" class="usp__item-img" width="120" height="120" loading="lazy">
+          <h3 class="usp__item-title">Комфорт</h3>
+          <p class="usp__item-text">Wi-Fi, кофе и камера в ремзону.</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="services" class="upsell" aria-labelledby="services-heading">
+      <h2 id="services-heading" class="upsell__title">Дополнительные услуги</h2>
+      <div class="upsell__grid">
+        <article class="upsell__card">
+          <img src="https://images.unsplash.com/photo-1625047509168-163333cb0b69?w=400&q=80" alt="Сезонное хранение шин на складе" class="upsell__card-img" width="120" height="120" loading="lazy">
+          <h3 class="upsell__card-title">Сезонное хранение шин</h3>
+          <p class="upsell__card-price">от 3000₽</p>
+        </article>
+        <article class="upsell__card">
+          <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&q=80" alt="Правка и сварка литых дисков" class="upsell__card-img" width="120" height="120" loading="lazy">
+          <h3 class="upsell__card-title">Правка и сварка дисков</h3>
+          <p class="upsell__card-price">от 1500₽</p>
+        </article>
+        <article class="upsell__card">
+          <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&q=80" alt="Заправка кондиционера автомобиля" class="upsell__card-img" width="120" height="120" loading="lazy">
+          <h3 class="upsell__card-title">Заправка кондиционеров</h3>
+          <p class="upsell__card-price">от 2000₽</p>
+        </article>
+      </div>
+    </section>
+
+    <section id="reviews" class="reviews" aria-labelledby="reviews-heading">
+      <h2 id="reviews-heading" class="reviews__title">Отзывы и работы</h2>
+      <div class="reviews__works">
+        <h3 class="reviews__block-title">Наши работы сегодня</h3>
+        <ul class="reviews__gallery" aria-label="Фото работ">
+          <li><img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=600&q=80" alt="Балансировка колёс на BMW X5" width="300" height="200" loading="lazy"></li>
+          <li><img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80" alt="Шиномонтаж Mercedes в сервисе" width="300" height="200" loading="lazy"></li>
+          <li><img src="https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=600&q=80" alt="Audi на подъёмнике в боксе" width="300" height="200" loading="lazy"></li>
+          <li><img src="https://images.unsplash.com/photo-1487754180451-c456f719a1fc?w=600&q=80" alt="Премиальный автомобиль на обслуживании" width="300" height="200" loading="lazy"></li>
+        </ul>
+      </div>
+      <div class="reviews__testimonials">
+        <h3 class="reviews__block-title">Отзывы с карт</h3>
+        <p class="reviews__rating">Рейтинг 4.8+</p>
+        <ul class="reviews__screenshots" aria-label="Скриншоты отзывов">
+          <li><img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600&q=80" alt="Скриншот отзыва клиента с Яндекс.Карт" width="400" height="200" loading="lazy"></li>
+          <li><img src="https://images.unsplash.com/photo-1625047509168-163333cb0b69?w=600&q=80" alt="Скриншот отзыва о шиномонтаже" width="400" height="200" loading="lazy"></li>
+        </ul>
+      </div>
+    </section>
+
+    <section id="contacts" class="location" aria-labelledby="contacts-heading">
+      <h2 id="contacts-heading" class="location__title">Контакты и карта</h2>
+      <div class="location__map" aria-label="Карта">
+        <img src="https://images.unsplash.com/photo-1524661135-423995f22d0b?w=800&q=80" alt="Схема проезда и зона покрытия выездного шиномонтажа" width="800" height="400" loading="lazy">
+      </div>
+      <address class="location__address">
+        г. Москва, ул. Примерная, д. 1<br>
+        Зона выезда: в пределах МКАД — до 40 мин.
+      </address>
+    </section>
+  </main>
+
+  <footer class="footer" role="contentinfo">
+    <p class="footer__copyright">© 2026 Шиномонтаж PRO. Все права защищены.</p>
+    <p class="footer__legal">ИНН 7700123456 / ОГРН 1157746123456</p>
+    <ul class="footer__social" aria-label="Социальные сети">
+      <li><a href="#" aria-label="WhatsApp">WhatsApp</a></li>
+      <li><a href="#" aria-label="Telegram">Telegram</a></li>
+    </ul>
+    <a href="mailto:director@example.com" class="footer__complaint">Пожаловаться директору</a>
+  </footer>
+
+  <script src="js/script.js"></script>
+</body>
+</html>

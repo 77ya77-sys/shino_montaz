@@ -1,0 +1,20 @@
+# Tire Service Landing — Cursor Rules
+
+## Strict Rules
+
+- **Semantic HTML5:** Use `<header>`, `<section>`, `<nav>`, `<footer>`, `<article>` and other semantic tags. No div-soup.
+- **Accessibility (a11y) is critical:** Add `alt` on every `<img>`. Use `aria-label` / `aria-labelledby` where it improves context (nav, buttons, sections).
+- **No inline styles.** Use classes and external CSS only. All presentation in `css/styles.css`.
+- **CSS Variables** for colors and fonts. Define in `:root`, use throughout.
+- **Layout:** Use Flexbox and CSS Grid. Do not use `float` for layout.
+- **Mobile-First:** Default styles are for mobile. Use `@media (min-width: ...)` to add or override for tablet/desktop. Do not use desktop-first or max-width as primary approach.
+- **Reset CSS** — required at the top of main CSS:
+  ```css
+  *, *::before, *::after { box-sizing: border-box; }
+  ```
+
+## Project Context
+
+- Pure HTML5, CSS3, Vanilla JS. No build tools, no frameworks.
+- Static site: open `index.html` in browser or serve via any static server.
+- Images in `assets/images/`. Reference with relative paths.
