@@ -124,10 +124,10 @@
           </div>
         </fieldset>
         <div class="calculator__output" id="calculator-output">
-          <span class="calculator__output-label">Итого</span>
-          <output class="calculator__total-price" id="total-price" data-calc="result" aria-live="polite">—</output>
-          <div class="price-subtitle">Цена за комплект (4 колеса)</div>
-          <ul id="service-list" class="service-list"></ul>
+          <div class="total-price-block" data-calc="result" aria-live="polite">—</div>
+          <div class="price-details">
+            <ul id="service-list" class="service-list"></ul>
+          </div>
         </div>
         <button type="button" class="calculator__cta">Зафиксировать цену</button>
       </form>
@@ -168,7 +168,7 @@
           <p class="upsell__card-price">от 1500₽</p>
         </article>
         <article class="upsell__card">
-          <img src="https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=400&q=80" alt="Заправка кондиционера автомобиля" class="upsell__card-img" width="120" height="120" loading="lazy">
+          <img src="assets/images/climat.webp" alt="Заправка кондиционера автомобиля" class="upsell__card-img" width="120" height="120" loading="lazy">
           <h3 class="upsell__card-title">Заправка кондиционеров</h3>
           <p class="upsell__card-price">от 2000₽</p>
         </article>
@@ -198,11 +198,9 @@
 
     <section id="contacts" class="location" aria-labelledby="contacts-heading">
       <h2 id="contacts-heading" class="location__title">Контакты и Схема проезда</h2>
-      <p class="location__intro">Приезжайте к нам — стационарный шиномонтаж по адресу ниже.</p>
       <div class="location__container">
-        <div class="location__info">
+        <div class="location__info contact-info">
           <address class="location__address">
-            <span class="location__label">Адрес</span>
             г. Москва, ул. Примерная, д. 10, стр. 2
           </address>
           <p class="location__landmark">
@@ -229,12 +227,19 @@
             </ul>
           </div>
         </div>
-        <a href="https://yandex.ru/maps/-/CPAfvV~t" class="location__map-wrap" target="_blank" rel="noopener noreferrer" aria-label="Открыть схему проезда в Яндекс.Картах">
-          <div class="location__map-placeholder">
-            <span class="location__map-pin" aria-hidden="true">📍</span>
-            <span class="location__map-btn">Открыть на карте</span>
-          </div>
-        </a>
+        <div class="location__map-wrap map-wrapper">
+          <a href="https://yandex.ru/maps/213/moscow/?utm_medium=mapframe&utm_source=maps" class="location__map-attribution location__map-attribution--city">Москва</a>
+          <a href="https://yandex.ru/maps/213/moscow/?ll=37.462081%2C55.726883&mode=whatshere&utm_campaign=desktop&utm_medium=mapframe&utm_source=maps&whatshere%5Bpoint%5D=37.459785%2C55.726882&whatshere%5Bzoom%5D=17.77&z=14.77" class="location__map-attribution location__map-attribution--place">Улица Алексея Свиридова, 2 — Яндекс Карты</a>
+          <iframe
+            src="https://yandex.ru/map-widget/v1/?ll=37.459785%2C55.726882&z=16&pt=37.459785%2C55.726882%2Cpm2rdm"
+            width="100%"
+            height="100%"
+            frameborder="0"
+            allowfullscreen="true"
+            title="Схема проезда — Яндекс.Карты">
+          </iframe>
+          <a href="https://yandex.ru/maps/-/CPAfvV~t" class="location__map-btn map-overlay-btn" target="_blank" rel="noopener noreferrer">Открыть в Яндекс.Картах</a>
+        </div>
       </div>
     </section>
   </main>

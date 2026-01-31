@@ -108,13 +108,13 @@
 
   const handleCalculatorChange = (form, resultEl) => {
     const total = calculateTotal(form);
-    resultEl.textContent = formatPrice(total);
+    resultEl.textContent = total != null ? 'Итого: ' + formatPrice(total) : '—';
     updateServiceList(form);
   };
 
   const handleFixPriceClick = (evt) => {
     evt.preventDefault();
-    const resultEl = document.querySelector('[data-calc="result"]');
+    const resultEl = document.querySelector('.total-price-block');
     const price = resultEl && resultEl.textContent !== '—' ? resultEl.textContent : null;
     if (price) {
       const link = document.querySelector('.header__phone');
@@ -125,7 +125,7 @@
 
   const initCalculator = () => {
     const form = document.querySelector('.calculator__form');
-    const resultEl = document.querySelector('[data-calc="result"]');
+    const resultEl = document.querySelector('.total-price-block');
     const ctaBtn = document.querySelector('.calculator__cta');
 
     if (!form || !resultEl) return;
