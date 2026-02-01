@@ -469,7 +469,7 @@ main {
   position: absolute;
   inset: 0;
   background-image: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)),
-    url("../assets/images/freepik__overtheshoulder-shot-looking-down-at-a-premium-tir__35891.webp");
+    url("../assets/images/hero.webp");
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
