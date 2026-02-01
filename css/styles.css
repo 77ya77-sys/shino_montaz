@@ -417,7 +417,7 @@ ul {
 
   .header__nav {
     grid-column: auto;
-    justify-self: start;
+    justify-self: center;
     max-height: none;
     overflow: visible;
     opacity: 1;
@@ -425,10 +425,6 @@ ul {
 
   .header__nav-list {
     gap: var(--space-lg);
-  }
-  
-  .header__descriptor {
-    font-size: var(--font-size-lg);
   }
 }
 
@@ -490,17 +486,60 @@ main {
 
 .hero__title {
   margin: 0;
-  font-size: var(--font-size-xl); /* Mobile: 20px */
+  font-size: 48px;
   line-height: 1.3;
   color: var(--color-text-heading);
   font-weight: 700;
-  text-transform: uppercase;
+  text-transform: none !important;
+}
+
+.text-highlight {
+  color: var(--color-accent);
 }
 
 .hero__subhead {
   margin: 0;
   color: var(--color-text);
-  font-size: var(--font-size-base);
+  font-size: 22px;
+}
+
+.hero__rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin: 0;
+  padding: var(--spacing-xs) var(--spacing-xl);
+  background: var(--color-bg-elevated);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-sm);
+  color: var(--color-text-heading);
+  font-size: var(--font-size-sm);
+  font-weight: 600;
+  box-shadow: var(--shadow-subtle);
+  min-width: 280px;
+}
+
+.hero__rating-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+}
+
+.hero__rating-icon .icon-yandex {
+  width: 20px;
+  height: 20px;
+}
+
+/* Tablet and up: wider rating badge, larger icon */
+@media (min-width: 768px) {
+  .hero__rating {
+    min-width: 400px;
+  }
+
+  .hero__rating-icon .icon-yandex {
+    width: 24px;
+    height: 24px;
+  }
 }
 
 /* Hero CTA: Mobile-First - full width on mobile */
@@ -509,17 +548,18 @@ main {
   align-self: stretch; /* Full width on mobile */
   width: 100%;
   min-height: var(--touch-min);
-  padding: var(--spacing-lg) var(--spacing-xl);
+  padding: var(--spacing-md) var(--spacing-lg);
   background: var(--color-accent);
   color: #fff;
   font-weight: 700;
-  text-transform: uppercase;
   letter-spacing: 0.02em;
   text-align: center;
   text-decoration: none;
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-btn);
   transition: var(--transition-interactive);
+  white-space: normal;
+  line-height: 1.3;
 }
 
 .hero__cta:hover,
@@ -530,27 +570,44 @@ main {
   box-shadow: var(--shadow-btn-hover);
 }
 
-/* Tablet and up: auto width */
+/* Under 480px: smaller font and padding so button text fits on one line */
+@media (max-width: 479px) {
+  .hero__cta {
+    font-size: 0.9rem;
+    padding: var(--spacing-sm) var(--spacing-md);
+    white-space: nowrap;
+  }
+}
+
+/* Very small screens: even more compact */
+@media (max-width: 374px) {
+  .hero__cta {
+    padding: var(--spacing-xs) var(--spacing-sm);
+    font-size: 0.85rem;
+  }
+}
+
+/* Tablet and up: auto width, single line */
 @media (min-width: 768px) {
   .hero__cta {
     align-self: flex-start;
     width: auto;
     min-width: 280px;
     padding: var(--spacing-lg) var(--spacing-2xl);
+    white-space: nowrap;
   }
 }
 
-/* Tablet and up: larger hero text */
+/* Hero title/subhead: fixed sizes on all breakpoints */
 @media (min-width: 768px) {
   .hero__title {
-    font-size: var(--font-size-2xl); /* Tablet: 24px */
+    font-size: 48px;
   }
 }
 
-/* Desktop: even larger */
 @media (min-width: 1024px) {
   .hero__title {
-    font-size: var(--font-size-3xl); /* Desktop: 32px */
+    font-size: 48px;
   }
 }
 
@@ -560,20 +617,90 @@ main {
 .calculator {
   padding: var(--section-padding-y) var(--section-padding-x);
   background: var(--color-bg-card);
+  scroll-margin-top: 100px;
 }
 
 .calculator__title {
   margin: 0 0 var(--space-lg);
+  text-align: center;
   color: var(--color-text-heading);
   font-weight: 700;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .calculator__form {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-lg);
+  gap: var(--spacing-lg);
   max-width: 36rem;
+}
+
+/* Desktop: two columns — fields left, sticky check right */
+@media (min-width: 900px) {
+  .calculator__form {
+    max-width: none;
+    grid-template-columns: 1fr 340px;
+    gap: var(--spacing-xl);
+    align-items: start;
+  }
+}
+
+.calculator__fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-lg);
+}
+
+/* Sticky card — чек (светло-серый) */
+.calculator__check {
+  background: #e5e5e5;
+  border: 1px solid #ccc;
+  border-radius: var(--radius-md);
+  padding: var(--spacing-lg);
+  box-shadow: var(--shadow-subtle);
+}
+
+@media (min-width: 900px) {
+  .calculator__check {
+    position: sticky;
+    top: calc(var(--touch-min) + var(--spacing-md));
+  }
+}
+
+.calculator__check .calculator__output {
+  background: transparent;
+  border: none;
+  padding: 0;
+  margin-bottom: var(--spacing-lg);
+}
+
+.calculator__check .total-price-block {
+  background: #fff;
+  color: var(--color-accent);
+  margin-bottom: var(--spacing-md);
+}
+
+.calculator__check-caption {
+  margin: 0 0 var(--spacing-sm);
+  font-size: var(--font-size-xs);
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #555;
+  letter-spacing: 0.02em;
+}
+
+.calculator__check .price-details {
+  margin-top: 0;
+  text-align: left;
+}
+
+.calculator__check .price-details .service-list {
+  color: #444;
+  font-size: var(--font-size-sm);
+}
+
+.calculator__check .calculator__cta {
+  width: 100%;
 }
 
 /* Hide native inputs, keep focusable for a11y */
@@ -634,6 +761,35 @@ main {
   cursor: pointer;
   transition: var(--transition-interactive);
   user-select: none;
+}
+
+.calculator__tile:has(.calculator__tile-icon) {
+  gap: var(--spacing-sm);
+}
+
+.calculator__tile-icon {
+  display: inline-flex;
+  flex-shrink: 0;
+  align-items: center;
+  justify-content: center;
+}
+
+.calculator__tile-icon svg {
+  width: 24px;
+  height: 24px;
+  display: block;
+}
+
+/* Иконка у левого края, надпись по центру плашки */
+.calculator__tile--icon-left .calculator__tile-icon {
+  position: absolute;
+  left: var(--spacing-md);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.calculator__tile--icon-left .calculator__tile-icon img {
+  display: block;
 }
 
 .calculator__tile:hover {
@@ -780,7 +936,12 @@ main {
 
 .price-details .service-list li {
   margin: 0;
-  padding: 0;
+  padding: var(--spacing-xs) 0;
+  border-bottom: 1px dotted rgba(0, 0, 0, 0.15);
+}
+
+.price-details .service-list li:last-child {
+  border-bottom: none;
 }
 
 /* Options group: same card style as before */
@@ -832,20 +993,26 @@ main {
 
 .usp__title {
   margin: 0 0 var(--space-lg);
+  text-align: center;
   color: var(--color-text-heading);
   font-weight: 700;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .usp__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-lg);
+  gap: var(--spacing-lg);
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .usp__item {
-  padding: var(--spacing-lg);
-  background: var(--color-bg-card);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
@@ -857,32 +1024,51 @@ main {
   box-shadow: 0 var(--spacing-sm) var(--spacing-md) rgba(0, 0, 0, 0.4);
 }
 
-.usp__item-img {
-  width: var(--spacing-3xl);
-  height: var(--spacing-3xl);
+.usp__item-media {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.usp__item-media .usp__item-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: var(--spacing-sm);
-  margin-bottom: var(--spacing-md);
+  display: block;
+}
+
+.usp__item-body {
+  padding: var(--spacing-lg);
+  background: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
 .usp__item-title {
-  margin: 0 0 var(--spacing-sm);
+  margin: 0;
   font-size: var(--font-size-lg);
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-text-heading);
+  color: #1a1a1a;
 }
 
 .usp__item-text {
   margin: 0;
-  color: var(--color-text);
+  color: #444;
   font-size: var(--font-size-base);
+  line-height: 1.5;
 }
 
-/* Tablet and up: 3-column grid */
+/* Tablet and up: 4 колонки, карточки 3:4 */
 @media (min-width: 768px) {
   .usp__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 280px));
+    justify-content: center;
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .usp__title {
@@ -900,20 +1086,26 @@ main {
 
 .upsell__title {
   margin: 0 0 var(--space-lg);
+  text-align: center;
   color: var(--color-text-heading);
   font-weight: 700;
-  text-transform: uppercase;
+  text-transform: none;
 }
 
 .upsell__grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: var(--space-lg);
+  gap: var(--spacing-lg);
+  max-width: 280px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
 .upsell__card {
-  padding: var(--spacing-lg);
-  background: var(--color-bg-elevated);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background: #fff;
   border: 1px solid var(--color-border);
   border-radius: var(--radius-md);
   box-shadow: var(--shadow-card);
@@ -925,32 +1117,51 @@ main {
   box-shadow: 0 var(--spacing-sm) var(--spacing-md) rgba(0, 0, 0, 0.4);
 }
 
-.upsell__card-img {
-  width: var(--spacing-3xl);
-  height: var(--spacing-3xl);
+.upsell__card-media {
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.upsell__card-media .upsell__card-img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
-  border-radius: var(--spacing-sm);
-  margin-bottom: var(--spacing-md);
+  display: block;
+}
+
+.upsell__card-body {
+  padding: var(--spacing-lg);
+  background: #fff;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-sm);
 }
 
 .upsell__card-title {
-  margin: 0 0 var(--spacing-sm);
+  margin: 0;
   font-size: var(--font-size-lg);
   font-weight: 700;
   text-transform: uppercase;
-  color: var(--color-text-heading);
+  color: #1a1a1a;
 }
 
 .upsell__card-price {
   margin: 0;
   font-weight: 600;
   color: var(--color-accent);
+  font-size: var(--font-size-base);
 }
 
-/* Tablet and up: 3-column grid */
+/* Tablet and up: 4 колонки, карточки 3:4 */
 @media (min-width: 768px) {
   .upsell__grid {
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, minmax(0, 280px));
+    justify-content: center;
+    max-width: none;
+    margin-left: auto;
+    margin-right: auto;
   }
   
   .upsell__title {

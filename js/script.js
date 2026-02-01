@@ -305,7 +305,7 @@
 
   const HEADER_OFFSET = 100;
   const NAV_SELECTOR = '.header__nav';
-  const SECTION_IDS = ['calculator', 'why-us', 'services', 'reviews', 'contacts'];
+  const SECTION_IDS = ['calculator', 'prices', 'services', 'reviews', 'contacts'];
 
   const initScrollSpy = () => {
     const nav = document.querySelector(NAV_SELECTOR);
@@ -327,9 +327,16 @@
         }
       }
       if (!activeSection) {
-        activeSection = sections.find((s) => s.getBoundingClientRect().top >= headerOffset) || sections[0];
+        const firstSection = sections[0];
+        const firstTop = firstSection ? firstSection.getBoundingClientRect().top : 0;
+        if (firstTop > headerOffset) {
+          activeSection = null;
+        } else {
+          activeSection = sections.find((s) => s.getBoundingClientRect().top >= headerOffset) || sections[0];
+        }
       }
-      const activeId = activeSection ? activeSection.id : null;
+      let activeId = activeSection ? activeSection.id : null;
+      if (activeId === 'services') activeId = 'prices';
       links.forEach((link) => {
         const href = link.getAttribute('href') || '';
         link.classList.toggle('active', href === '#' + activeId);

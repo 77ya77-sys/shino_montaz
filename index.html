@@ -4,13 +4,13 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Шиномонтаж PRO — переобувка авто за 30 минут</title>
+  <link rel="icon" href="assets/icons/favicon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
   <header class="header" role="banner">
     <a href="#" class="header__logo" aria-label="На главную">
       <span class="header__logo-mark" aria-hidden="true">Шиномонтаж PRO</span>
-      <span class="header__descriptor">Работаем 24/7</span>
     </a>
     <button type="button" class="header__burger" aria-label="Открыть меню" aria-expanded="false" aria-controls="header-nav" id="header-burger">
       <span class="header__burger-line" aria-hidden="true"></span>
@@ -19,9 +19,8 @@
     </button>
     <nav id="header-nav" class="header__nav" aria-label="Главное меню">
       <ul class="header__nav-list">
-        <li><a href="#calculator" class="nav-link">Рассчитать стоимость</a></li>
-        <li><a href="#why-us" class="nav-link">Почему мы</a></li>
-        <li><a href="#services" class="nav-link">Услуги</a></li>
+        <li><a href="#calculator" class="nav-link">Цены</a></li>
+        <li><a href="#prices" class="nav-link">Услуги</a></li>
         <li><a href="#reviews" class="nav-link">Отзывы</a></li>
         <li><a href="#contacts" class="nav-link">Контакты</a></li>
       </ul>
@@ -50,24 +49,37 @@
     <section id="hero" class="hero" aria-labelledby="hero-heading">
       <div class="hero__bg" aria-hidden="true"></div>
       <div class="hero__content">
-        <h1 id="hero-heading" class="hero__title">Переобувка авто за 30 минут без очередей. Запись строго по времени.</h1>
-        <p class="hero__subhead">Полный комплекс от 2500 руб. + Пакеты для шин в подарок.</p>
-        <a href="#calculator" class="hero__cta" id="hero-booking-cta" data-action="open-booking-modal">Записаться на удобное время</a>
+        <p class="hero__rating" role="img" aria-label="Рейтинг 4.9 на Яндекс.Картах, 1450 плюс отзывов">
+          <span class="hero__rating-icon" aria-hidden="true">
+            <svg class="icon-yandex" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" focusable="false" aria-hidden="true"><circle cx="12" cy="12" r="11" fill="#FC3F1D"/><text x="12" y="16.5" fill="#fff" font-size="11" font-weight="700" text-anchor="middle" font-family="Arial,sans-serif">Я</text></svg>
+          </span>
+          <span class="hero__rating-text">⭐ 4.9 Средняя оценка на Яндекс.Картах (1450+ отзывов)</span>
+        </p>
+        <h1 id="hero-heading" class="hero__title">Боитесь потратить выходной на <span class="text-highlight">очереди</span> в шиномонтаж?</h1>
+        <p class="hero__subhead">Заменим резину ровно за 30 минут. Примем строго по записи — или вернем деньги. Пакеты для шин в подарок.</p>
+        <a href="#calculator" class="hero__cta" id="hero-booking-cta" data-action="open-booking-modal">Рассчитать стоимость и записаться</a>
       </div>
     </section>
 
     <section id="calculator" class="calculator" aria-labelledby="calculator-heading">
-      <h2 id="calculator-heading" class="calculator__title">Рассчитать стоимость</h2>
+      <h2 id="calculator-heading" class="calculator__title">Узнай точную стоимость без скрытых доплат</h2>
       <form class="calculator__form" aria-label="Калькулятор стоимости услуг">
+        <div class="calculator__fields">
         <fieldset class="calculator__fieldset calculator__fieldset--jobtype">
           <legend class="calculator__legend">Тип работ</legend>
           <div class="calculator__options calculator__options--row">
-            <label class="calculator__tile">
+            <label class="calculator__tile calculator__tile--icon-left">
               <input type="radio" name="jobtype" value="full" data-calc="jobtype" checked class="calculator__input-hidden">
+              <span class="calculator__tile-icon" aria-hidden="true">
+                <img src="assets/icons/shiny_ojqazkaa34m3.svg" alt="" width="48" height="48">
+              </span>
               <span class="calculator__tile-text">Полная переобувка</span>
             </label>
-            <label class="calculator__tile calculator__tile--wheels">
+            <label class="calculator__tile calculator__tile--wheels calculator__tile--icon-left">
               <input type="radio" name="jobtype" value="wheels" data-calc="jobtype" class="calculator__input-hidden">
+              <span class="calculator__tile-icon" aria-hidden="true">
+                <img src="assets/icons/shiny_kfp4cpwrostf.svg" alt="" width="48" height="48">
+              </span>
               <span class="calculator__tile-text">Колеса в сборе</span>
             </label>
           </div>
@@ -75,16 +87,25 @@
         <fieldset class="calculator__fieldset calculator__fieldset--vehicle">
           <legend class="calculator__legend">Тип авто</legend>
           <div class="calculator__options calculator__options--row">
-            <label class="calculator__tile">
+            <label class="calculator__tile calculator__tile--icon-left">
               <input type="radio" name="vehicle" value="car" data-calc="vehicle" checked class="calculator__input-hidden">
+              <span class="calculator__tile-icon" aria-hidden="true">
+                <img src="assets/icons/sedan.svg" alt="" width="48" height="48">
+              </span>
               <span class="calculator__tile-text">Легковая</span>
             </label>
-            <label class="calculator__tile calculator__tile--suv">
+            <label class="calculator__tile calculator__tile--suv calculator__tile--icon-left">
               <input type="radio" name="vehicle" value="suv" data-calc="vehicle" class="calculator__input-hidden">
+              <span class="calculator__tile-icon" aria-hidden="true">
+                <img src="assets/icons/suv.svg" alt="" width="48" height="48">
+              </span>
               <span class="calculator__tile-text">Кроссовер / Внедорожник</span>
             </label>
-            <label class="calculator__tile">
+            <label class="calculator__tile calculator__tile--icon-left">
               <input type="radio" name="vehicle" value="minibus" data-calc="vehicle" class="calculator__input-hidden">
+              <span class="calculator__tile-icon" aria-hidden="true">
+                <img src="assets/icons/mikroavtobus.svg" alt="" width="48" height="48">
+              </span>
               <span class="calculator__tile-text">Микроавтобус</span>
             </label>
           </div>
@@ -123,33 +144,58 @@
             </label>
           </div>
         </fieldset>
-        <div class="calculator__output" id="calculator-output">
-          <div class="total-price-block" data-calc="result" aria-live="polite">—</div>
-          <div class="price-details">
-            <ul id="service-list" class="service-list"></ul>
-          </div>
         </div>
-        <button type="button" class="calculator__cta">Зафиксировать цену</button>
+        <aside class="calculator__check" aria-label="Чек с итогом и составом услуг">
+          <div class="calculator__output" id="calculator-output">
+            <div class="total-price-block" data-calc="result" aria-live="polite">—</div>
+            <div class="price-details">
+              <p class="calculator__check-caption">В стоимость входят:</p>
+              <ul id="service-list" class="service-list"></ul>
+            </div>
+          </div>
+          <button type="button" class="calculator__cta">Зафиксировать цену</button>
+        </aside>
       </form>
     </section>
 
-    <section id="why-us" class="usp" aria-labelledby="why-us-heading">
-      <h2 id="why-us-heading" class="usp__title">Почему мы, а не гараж дяди Вани</h2>
+    <section id="prices" class="usp" aria-labelledby="prices-heading">
+      <h2 id="prices-heading" class="usp__title">Наши стандарты работы</h2>
       <div class="usp__grid">
         <article class="usp__item">
-          <img src="https://images.unsplash.com/photo-1625047509168-163333cb0b69?w=400&q=80" alt="Профессиональное оборудование для шиномонтажа" class="usp__item-img" width="120" height="120" loading="lazy">
-          <h3 class="usp__item-title">Не царапаем диски</h3>
-          <p class="usp__item-text">Оборудование Hofmann с пластиковыми насадками.</p>
+          <div class="usp__item-media">
+            <img src="https://images.unsplash.com/photo-1625047509168-163333cb0b69?w=400&q=80" alt="Профессиональное оборудование для шиномонтажа" class="usp__item-img" width="400" height="533" loading="lazy">
+          </div>
+          <div class="usp__item-body">
+            <h3 class="usp__item-title">Не царапаем диски</h3>
+            <p class="usp__item-text">Оборудование Hofmann с пластиковыми насадками.</p>
+          </div>
         </article>
         <article class="usp__item">
-          <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&q=80" alt="Гарантия на балансировку колёс" class="usp__item-img" width="120" height="120" loading="lazy">
-          <h3 class="usp__item-title">Гарантия 14 дней</h3>
-          <p class="usp__item-text">Честная гарантия на балансировку и грыжи.</p>
+          <div class="usp__item-media">
+            <img src="https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=400&q=80" alt="Гарантия на балансировку колёс" class="usp__item-img" width="400" height="533" loading="lazy">
+          </div>
+          <div class="usp__item-body">
+            <h3 class="usp__item-title">Гарантия 14 дней</h3>
+            <p class="usp__item-text">Честная гарантия на балансировку и грыжи.</p>
+          </div>
         </article>
         <article class="usp__item">
-          <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=400&q=80" alt="Комфортная зона ожидания" class="usp__item-img" width="120" height="120" loading="lazy">
-          <h3 class="usp__item-title">Комфорт</h3>
-          <p class="usp__item-text">Wi-Fi, кофе и камера в ремзону.</p>
+          <div class="usp__item-media">
+            <img src="https://images.unsplash.com/photo-1524758631624-e2822e304c36?w=400&q=80" alt="Комфортная зона ожидания" class="usp__item-img" width="400" height="533" loading="lazy">
+          </div>
+          <div class="usp__item-body">
+            <h3 class="usp__item-title">Комфорт</h3>
+            <p class="usp__item-text">Wi-Fi, кофе и камера в ремзону.</p>
+          </div>
+        </article>
+        <article class="usp__item">
+          <div class="usp__item-media">
+            <img src="https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&q=80" alt="Запись строго по времени" class="usp__item-img" width="400" height="533" loading="lazy">
+          </div>
+          <div class="usp__item-body">
+            <h3 class="usp__item-title">Запись по времени</h3>
+            <p class="usp__item-text">Без очередей — приезжаете в свой слот.</p>
+          </div>
         </article>
       </div>
     </section>
@@ -158,19 +204,40 @@
       <h2 id="services-heading" class="upsell__title">Дополнительные услуги</h2>
       <div class="upsell__grid">
         <article class="upsell__card">
-          <img src="https://images.unsplash.com/photo-1625047509168-163333cb0b69?w=400&q=80" alt="Сезонное хранение шин на складе" class="upsell__card-img" width="120" height="120" loading="lazy">
-          <h3 class="upsell__card-title">Сезонное хранение шин</h3>
-          <p class="upsell__card-price">от 3000₽</p>
+          <div class="upsell__card-media">
+            <img src="https://images.unsplash.com/photo-1625047509168-163333cb0b69?w=400&q=80" alt="Сезонное хранение шин на складе" class="upsell__card-img" width="400" height="533" loading="lazy">
+          </div>
+          <div class="upsell__card-body">
+            <h3 class="upsell__card-title">Сезонное хранение шин</h3>
+            <p class="upsell__card-price">от 3000₽</p>
+          </div>
         </article>
         <article class="upsell__card">
-          <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&q=80" alt="Правка и сварка литых дисков" class="upsell__card-img" width="120" height="120" loading="lazy">
-          <h3 class="upsell__card-title">Правка и сварка дисков</h3>
-          <p class="upsell__card-price">от 1500₽</p>
+          <div class="upsell__card-media">
+            <img src="https://images.unsplash.com/photo-1492144534655-ae79c964c9d7?w=400&q=80" alt="Правка и сварка литых дисков" class="upsell__card-img" width="400" height="533" loading="lazy">
+          </div>
+          <div class="upsell__card-body">
+            <h3 class="upsell__card-title">Правка и сварка дисков</h3>
+            <p class="upsell__card-price">от 1500₽</p>
+          </div>
         </article>
         <article class="upsell__card">
-          <img src="assets/images/climat.webp" alt="Заправка кондиционера автомобиля" class="upsell__card-img" width="120" height="120" loading="lazy">
-          <h3 class="upsell__card-title">Заправка кондиционеров</h3>
-          <p class="upsell__card-price">от 2000₽</p>
+          <div class="upsell__card-media">
+            <img src="assets/images/climat.webp" alt="Заправка кондиционера автомобиля" class="upsell__card-img" width="400" height="533" loading="lazy">
+          </div>
+          <div class="upsell__card-body">
+            <h3 class="upsell__card-title">Заправка кондиционеров</h3>
+            <p class="upsell__card-price">от 2000₽</p>
+          </div>
+        </article>
+        <article class="upsell__card">
+          <div class="upsell__card-media">
+            <img src="https://images.unsplash.com/photo-1625047509168-163333cb0b69?w=400&q=80" alt="Ремонт проколов и порезов шин" class="upsell__card-img" width="400" height="533" loading="lazy">
+          </div>
+          <div class="upsell__card-body">
+            <h3 class="upsell__card-title">Ремонт проколов</h3>
+            <p class="upsell__card-price">от 500₽</p>
+          </div>
         </article>
       </div>
     </section>
