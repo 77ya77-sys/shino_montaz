@@ -13,8 +13,42 @@
   *, *::before, *::after { box-sizing: border-box; }
   ```
 
+## HTML/CSS Best Practices
+
+### HTML
+- Use meaningful `id` and `class` names (BEM notation recommended: `.block__element--modifier`)
+- Every interactive element must have minimum touch target size of 44x44px
+- Forms must have proper `<label>` association with inputs via `for` attribute or nesting
+- Use `<button type="button">` for non-submit actions, `<button type="submit">` for forms
+- Always specify `lang` attribute on `<html>` tag (e.g., `lang="ru"`)
+- Meta viewport tag is mandatory: `<meta name="viewport" content="width=device-width, initial-scale=1">`
+
+### CSS
+- **Spacing System:** Use consistent spacing scale via CSS variables (`--spacing-*` or `--space-*`)
+- **Typography Scale:** Define font sizes as CSS variables (e.g., `--font-size-sm`, `--font-size-base`, `--font-size-lg`)
+- **Color Contrast:** Ensure WCAG AA compliance minimum (4.5:1 for normal text, 3:1 for large text)
+- **Avoid magic numbers:** Use named CSS variables instead of hardcoded values
+- **Use `rem` for font sizes** and spacing where appropriate for better accessibility
+- **Avoid `!important`** unless absolutely necessary (e.g., utility classes)
+- **Group related properties:** positioning → box model → typography → visual → misc
+- **Prefer shorthand properties** where it improves readability (e.g., `margin`, `padding`, `border`)
+- **Transitions:** Define reusable transition values as CSS variables (e.g., `--transition-fast: 0.15s ease`)
+
+### Performance
+- Minimize CSS selectors depth (max 3 levels recommended)
+- Use `will-change` sparingly and only when needed
+- Prefer `transform` and `opacity` for animations (GPU-accelerated)
+- Load web fonts with `font-display: swap` to prevent FOIT (Flash of Invisible Text)
+- Optimize images: use WebP format where supported, provide proper `width` and `height` attributes
+
+### Naming Conventions
+- **Classes:** Use lowercase with hyphens (`.header-navigation`)
+- **CSS Variables:** Use descriptive names with prefixes (`--color-primary`, `--spacing-md`)
+- **IDs:** Use sparingly, only for unique landmark elements or JS hooks
+
 ## Project Context
 
 - Pure HTML5, CSS3, Vanilla JS. No build tools, no frameworks.
 - Static site: open `index.html` in browser or serve via any static server.
 - Images in `assets/images/`. Reference with relative paths.
+- Language: Russian (ru)
