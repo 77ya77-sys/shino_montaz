@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 56" fill="none" role="img" aria-label="2GIS">
+  <defs>
+    <clipPath id="2gis-round">
+      <rect x="4" y="4" width="40" height="40" rx="8" ry="8"/>
+    </clipPath>
+  </defs>
+  <!-- Rounded square icon: 3 map segments -->
+  <g clip-path="url(#2gis-round)">
+    <!-- Top: orange-yellow -->
+    <path d="M4 4h40v14H4z" fill="#F5A623"/>
+    <!-- Middle: dark green -->
+    <path d="M4 18h40v12H4z" fill="#2D7D46"/>
+    <!-- Bottom: light green -->
+    <path d="M4 30h40v14H4z" fill="#6BCB77"/>
+    <!-- Diagonal white lines -->
+    <path d="M4 18L44 4" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+    <path d="M4 44L44 18" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+  </g>
+  <!-- Blue teardrop map pin, centered -->
+  <path d="M24 16c-2.8 0-5 2.2-5 5 0 3.5 5 8 5 8s5-4.5 5-8c0-2.8-2.2-5-5-5z" fill="#3385FF" stroke="#fff" stroke-width="1.2"/>
+  <circle cx="24" cy="21" r="1.8" fill="#fff"/>
+  <!-- Wordmark "2ГИС" (white on dark cards) -->
+  <text x="24" y="52" fill="#fff" font-size="10" font-weight="700" text-anchor="middle" font-family="Arial,sans-serif">2&#1043;&#1048;&#1057;</text>
+</svg>
