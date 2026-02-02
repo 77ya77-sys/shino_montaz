@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -413,10 +414,31 @@
   <div id="booking-modal" class="modal" role="dialog" aria-modal="true" aria-labelledby="booking-modal-title" aria-hidden="true">
     <div class="modal__backdrop" aria-hidden="true"></div>
     <div class="modal__box">
-      <h2 id="booking-modal-title" class="modal__title">Записаться на удобное время</h2>
-      <p class="modal__text">Позвоните нам или напишите в мессенджер — подберём слот и зафиксируем цену по калькулятору.</p>
-      <a href="tel:+78001234567" class="modal__cta">Позвонить для записи</a>
-      <button type="button" class="modal__close" aria-label="Закрыть окно">Закрыть</button>
+      <button type="button" class="modal__close-btn" aria-label="Закрыть окно">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 6L6 18M6 6l12 12"/></svg>
+      </button>
+      <h2 id="booking-modal-title" class="modal__title">Зафиксировать цену <span id="booking-modal-price" class="modal__title-price">—</span></h2>
+      <form class="modal__form" id="booking-form" aria-label="Форма записи" novalidate>
+        <div class="modal__field">
+          <label for="booking-name" class="modal__label">Имя</label>
+          <input type="text" id="booking-name" class="modal__input" name="name" autocomplete="name" placeholder="Ваше имя" required>
+        </div>
+        <div class="modal__field">
+          <label for="booking-phone" class="modal__label">Телефон</label>
+          <div class="modal__phone-wrap">
+            <span class="modal__phone-prefix" aria-hidden="true">+7</span>
+            <input type="tel" id="booking-phone" class="modal__input modal__input--phone" name="phone" inputmode="numeric" maxlength="16" placeholder="(999) 123-45-67" autocomplete="tel-national" required aria-label="Телефон: +7 (код) номер" data-phone-digits="">
+          </div>
+        </div>
+        <div class="modal__field modal__field--checkbox">
+          <input type="checkbox" id="booking-privacy" class="modal__checkbox" name="privacy" required aria-describedby="booking-privacy-desc">
+          <label for="booking-privacy" class="modal__label modal__label--checkbox" id="booking-privacy-desc">
+            Я согласен с <a href="privacy.html" class="modal__link" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a>
+          </label>
+        </div>
+        <button type="submit" class="modal__cta modal__submit" id="booking-submit">Зафиксировать цену</button>
+      </form>
+      <p class="modal__subtext">Мы вам перезвоним в течение пяти минут.</p>
     </div>
   </div>
 

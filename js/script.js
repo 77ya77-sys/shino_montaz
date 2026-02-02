@@ -114,13 +114,7 @@
 
   const handleFixPriceClick = (evt) => {
     evt.preventDefault();
-    const resultEl = document.querySelector('.total-price-block');
-    const price = resultEl && resultEl.textContent !== '—' ? resultEl.textContent : null;
-    if (price) {
-      const link = document.querySelector('.header__phone');
-      const href = link ? link.getAttribute('href') : 'tel:+78001234567';
-      window.location.href = href;
-    }
+    document.dispatchEvent(new CustomEvent('open-booking-modal'));
   };
 
   const initCalculator = () => {
@@ -215,8 +209,6 @@
 
   const MODAL_ID = 'booking-modal';
   const MODAL_OPEN_CLASS = 'modal--open';
-  const HERO_CTA_ID = 'hero-booking-cta';
-
   let focusReturnEl = null;
 
   const getModal = () => document.getElementById(MODAL_ID);
@@ -270,20 +262,82 @@
     }
   };
 
+  const initBookingForm = (modal) => {
+    const form = document.getElementById('booking-form');
+    const nameInput = document.getElementById('booking-name');
+    const phoneInput = document.getElementById('booking-phone');
+    const privacyCheckbox = document.getElementById('booking-privacy');
+    if (!form || !nameInput || !phoneInput || !privacyCheckbox) return;
+
+    const INVALID_CLASS = 'modal__field--invalid';
+    const nameField = nameInput.closest('.modal__field');
+    const phoneField = phoneInput.closest('.modal__field');
+    const privacyField = privacyCheckbox.closest('.modal__field');
+
+    const clearInvalid = (field) => {
+      if (field) field.classList.remove(INVALID_CLASS);
+    };
+
+    const getPhoneDigits = (value) => {
+      let val = (value || '').replace(/\D/g, '');
+      if (val.length === 11 && (val[0] === '7' || val[0] === '8')) val = val.slice(1);
+      return val.slice(0, 10);
+    };
+
+    const formatPhoneDisplay = (digits) => {
+      const d = (digits || '').replace(/\D/g, '').slice(0, 10);
+      if (d.length === 0) return '';
+      if (d.length <= 3) return '(' + d;
+      if (d.length <= 6) return '(' + d.slice(0, 3) + ') ' + d.slice(3);
+      if (d.length <= 8) return '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6);
+      return '(' + d.slice(0, 3) + ') ' + d.slice(3, 6) + '-' + d.slice(6, 8) + '-' + d.slice(8, 10);
+    };
+
+    const applyPhoneMask = () => {
+      const digits = getPhoneDigits(phoneInput.value);
+      phoneInput.value = formatPhoneDisplay(digits);
+      phoneInput.setAttribute('data-phone-digits', digits);
+      clearInvalid(phoneField);
+    };
+
+    phoneInput.addEventListener('input', applyPhoneMask);
+    phoneInput.addEventListener('paste', () => setTimeout(applyPhoneMask, 0));
+    phoneInput.addEventListener('change', applyPhoneMask);
+    nameInput.addEventListener('input', () => clearInvalid(nameField));
+    nameInput.addEventListener('change', () => clearInvalid(nameField));
+    privacyCheckbox.addEventListener('change', () => clearInvalid(privacyField));
+
+    form.addEventListener('submit', (evt) => {
+      evt.preventDefault();
+      const nameOk = (nameInput.value || '').trim().length >= 1;
+      const phoneOk = getPhoneDigits(phoneInput.value).length === 10;
+      const privacyOk = privacyCheckbox.checked;
+
+      [nameField, phoneField, privacyField].forEach((f) => f && f.classList.remove(INVALID_CLASS));
+      if (nameOk && phoneOk && privacyOk) {
+        closeModal();
+        return;
+      }
+      if (!nameOk && nameField) nameField.classList.add(INVALID_CLASS);
+      if (!phoneOk && phoneField) phoneField.classList.add(INVALID_CLASS);
+      if (!privacyOk && privacyField) privacyField.classList.add(INVALID_CLASS);
+    });
+  };
+
   const initModal = () => {
     const modal = getModal();
-    const heroCta = document.getElementById(HERO_CTA_ID);
     if (!modal) return;
 
     const backdrop = modal.querySelector('.modal__backdrop');
-    const closeBtn = modal.querySelector('.modal__close');
+    const closeBtn = modal.querySelector('.modal__close-btn');
 
-    if (heroCta) {
-      heroCta.addEventListener('click', (evt) => {
-        evt.preventDefault();
-        openModal(heroCta);
-      });
-    }
+    document.addEventListener('open-booking-modal', () => {
+      const priceEl = document.getElementById('booking-modal-price');
+      const totalBlock = document.querySelector('.total-price-block');
+      if (priceEl && totalBlock) priceEl.textContent = (totalBlock.textContent || '').trim() || '—';
+      openModal(null);
+    });
+    initBookingForm(modal);
 
     if (backdrop) backdrop.addEventListener('click', closeModal);
     if (closeBtn) closeBtn.addEventListener('click', closeModal);
