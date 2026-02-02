@@ -94,16 +94,6 @@
   100% { left: 150%; }
 }
 
-/* Keyframes Animation Override — Yandex Mobile autofill yellow fix (input bg = --color-bg-card #151515) */
-@keyframes autofill-fix {
-  0%, 100% {
-    color: #fff;
-    background: transparent;
-    box-shadow: 0 0 0 1000px #151515 inset;
-    -webkit-box-shadow: 0 0 0 1000px #151515 inset;
-  }
-}
-
 /* ============================================
    Skip link (a11y — bypass block)
    ============================================ */
@@ -2357,14 +2347,22 @@ main {
   outline-offset: 2px;
 }
 
-/* Keyframes Animation Override — Yandex Mobile autofill (input bg #151515) */
+/* FINAL ATTEMPT FOR YANDEX AUTOFILL — Linear Gradient Overlay (input bg = --color-bg-card #151515) */
 .modal__input:-webkit-autofill,
 .modal__input:-webkit-autofill:hover,
 .modal__input:-webkit-autofill:focus,
 .modal__input:-webkit-autofill:active {
-  -webkit-animation: autofill-fix 1s infinite;
-  animation: autofill-fix 1s infinite;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background-image: linear-gradient(#151515, #151515) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-color: #151515 !important;
   -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  -webkit-box-shadow: 0 0 0 1000px #151515 inset !important;
+  box-shadow: 0 0 0 1000px #151515 inset !important;
+  transition: background-color 9999s ease-in-out 0s !important;
 }
 
 .modal__phone-wrap {
@@ -2401,21 +2399,29 @@ main {
   outline: none;
 }
 
-/* Keyframes Animation Override — phone input */
+/* FINAL ATTEMPT FOR YANDEX AUTOFILL — phone input (bg #151515) */
 .modal__input--phone:-webkit-autofill,
 .modal__input--phone:-webkit-autofill:hover,
 .modal__input--phone:-webkit-autofill:focus,
 .modal__input--phone:-webkit-autofill:active {
-  -webkit-animation: autofill-fix 1s infinite;
-  animation: autofill-fix 1s infinite;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background-image: linear-gradient(#151515, #151515) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-color: #151515 !important;
   -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  -webkit-box-shadow: 0 0 0 1000px #151515 inset !important;
+  box-shadow: 0 0 0 1000px #151515 inset !important;
+  transition: background-color 9999s ease-in-out 0s !important;
 }
 
 .modal__phone-wrap:focus-within .modal__input--phone {
   outline: none;
 }
 
-/* Keyframes Animation Override — higher specificity when modal is open */
+/* FINAL ATTEMPT FOR YANDEX AUTOFILL — higher specificity when modal is open */
 #booking-modal.modal--open .modal__input:-webkit-autofill,
 #booking-modal.modal--open .modal__input:-webkit-autofill:hover,
 #booking-modal.modal--open .modal__input:-webkit-autofill:focus,
@@ -2424,9 +2430,17 @@ main {
 #booking-modal.modal--open .modal__input--phone:-webkit-autofill:hover,
 #booking-modal.modal--open .modal__input--phone:-webkit-autofill:focus,
 #booking-modal.modal--open .modal__input--phone:-webkit-autofill:active {
-  -webkit-animation: autofill-fix 1s infinite;
-  animation: autofill-fix 1s infinite;
+  -webkit-appearance: none !important;
+  appearance: none !important;
+  background-image: linear-gradient(#151515, #151515) !important;
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-color: #151515 !important;
   -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
+  -webkit-box-shadow: 0 0 0 1000px #151515 inset !important;
+  box-shadow: 0 0 0 1000px #151515 inset !important;
+  transition: background-color 9999s ease-in-out 0s !important;
 }
 
 .modal__checkbox {
