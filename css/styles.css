@@ -86,6 +86,30 @@
 }
 
 /* ============================================
+   Skip link (a11y — bypass block)
+   ============================================ */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: var(--spacing-md);
+  z-index: 10001;
+  padding: var(--spacing-sm) var(--spacing-md);
+  background: var(--color-accent);
+  color: #fff;
+  font-weight: 700;
+  font-size: var(--font-size-sm);
+  text-decoration: none;
+  border-radius: var(--radius-sm);
+  transition: top var(--transition-fast);
+}
+
+.skip-link:focus {
+  top: var(--spacing-md);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* ============================================
    Base — high contrast (readable outdoors)
    ============================================ */
 html {
@@ -455,7 +479,9 @@ ul {
   border-bottom-color: var(--color-accent);
 }
 
-/* ========== Mobile only (max-width: 768px) ========== */
+/* ========== Mobile only (max-width: 768px) ==========
+   !important здесь — намеренные перебивки каскада для мобильной вёрстки;
+   по .cursorrules оставляем только где необходимо. */
 @media (max-width: 768px) {
   .header {
     overflow-x: hidden;
@@ -652,10 +678,7 @@ ul {
 
   /* A. Hide Icons in Calculator Cards */
   .calculator__tile-icon,
-  .calculator__tile-icon img,
-  .calc-option img,
-  .option-card img,
-  .calc-card-icon {
+  .calculator__tile-icon img {
     display: none !important;
   }
 
@@ -667,9 +690,7 @@ ul {
     flex: none !important;
   }
 
-  .calculator__tile,
-  .calc-option,
-  .option-card {
+  .calculator__tile {
     display: flex !important;
     flex-direction: column;
     justify-content: center;
@@ -685,9 +706,7 @@ ul {
 
   /* C. Typography */
   .calculator__tile-text,
-  .calculator__tile span:not(.sub-text),
-  .calc-option span,
-  .option-card-title {
+  .calculator__tile span:not(.sub-text) {
     font-size: 14px !important;
     line-height: 1.2;
     margin: 0 !important;
@@ -701,9 +720,7 @@ ul {
   /* D. Grids — 2 columns, never overflow */
   .calculator__options,
   .calculator__options--row,
-  .calculator__options--wrap,
-  .calc-grid,
-  .options-grid {
+  .calculator__options--wrap {
     display: grid !important;
     grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
     gap: 10px !important;
@@ -713,8 +730,7 @@ ul {
     box-sizing: border-box;
   }
 
-  .calculator__radius-options,
-  .radius-grid {
+  .calculator__radius-options {
     grid-template-columns: repeat(3, minmax(0, 1fr)) !important;
     display: grid !important;
     gap: 10px !important;
@@ -2328,7 +2344,11 @@ main {
 .footer-link:focus-visible {
   opacity: 1;
   text-decoration: underline;
-  outline: none;
+}
+
+.footer-link:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .footer__social {
@@ -2658,7 +2678,75 @@ main {
   color: var(--color-accent);
 }
 
-/* Footer complaint: visible but secondary (muted default) */
+/* Уведомление об успешной отправке — только текст и один крестик, компактно */
+.modal.modal--success .modal__title,
+.modal.modal--success .modal__close-btn {
+  display: none;
+}
+
+.modal.modal--success .modal__box {
+  max-width: min(20rem, calc(100vw - 2 * var(--spacing-md)));
+  padding: var(--spacing-lg) var(--spacing-xl);
+}
+
+.modal__success {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-md);
+  padding: var(--spacing-xs) 0;
+  text-align: center;
+}
+
+.modal__success[hidden] {
+  display: none;
+}
+
+.modal.modal--success .modal__body {
+  display: none;
+}
+
+.modal.modal--success .modal__success {
+  display: flex;
+}
+
+.modal__success-text {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text);
+  line-height: 1.4;
+}
+
+.modal__success-close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--touch-min);
+  height: var(--touch-min);
+  min-width: var(--touch-min);
+  min-height: var(--touch-min);
+  padding: 0;
+  border: 1px solid var(--color-border);
+  border-radius: 50%;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  transition: var(--transition-interactive);
+}
+
+.modal__success-close:hover,
+.modal__success-close:focus-visible {
+  color: var(--color-text);
+  border-color: var(--color-accent);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
+}
+
+.modal__success-close svg {
+  display: block;
+  width: 18px;
+  height: 18px;
+}
 
 /* ============================================
    Contacts Bento (Bento Grid style)
@@ -2767,8 +2855,9 @@ main {
   transition: var(--transition-interactive);
 }
 
-.btn-social-icon:focus {
-  outline: none;
+.btn-social-icon:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .btn-social-icon svg {
@@ -2880,7 +2969,11 @@ main {
 .privacy-header__back:hover,
 .privacy-header__back:focus-visible {
   color: var(--color-accent);
-  outline: none;
+}
+
+.privacy-header__back:focus-visible {
+  outline: 2px solid var(--color-accent);
+  outline-offset: 2px;
 }
 
 .privacy-main {

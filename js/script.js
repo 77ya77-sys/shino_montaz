@@ -114,7 +114,7 @@
 
   const handleFixPriceClick = (evt) => {
     evt.preventDefault();
-    document.dispatchEvent(new CustomEvent('open-booking-modal'));
+    document.dispatchEvent(new CustomEvent('open-booking-modal', { detail: { opener: evt.currentTarget } }));
   };
 
   const initCalculator = () => {
@@ -136,7 +136,6 @@
     }
 
     handleCalculatorChange(form, resultEl);
-    updateServiceList(form);
   };
 
   if (document.readyState === 'loading') {
@@ -154,7 +153,6 @@
 
   const BURGER_ID = 'header-burger';
   const HEADER_OPEN_CLASS = 'header--menu-open';
-  const FOCUSABLE_IN_NAV = 'a[href], button';
 
   const initBurger = () => {
     const burger = document.getElementById(BURGER_ID);
@@ -212,13 +210,17 @@
   let focusReturnEl = null;
 
   const getModal = () => document.getElementById(MODAL_ID);
+  const FOCUSABLE_SELECTOR = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
   const getFocusables = (root) =>
-    Array.prototype.slice.call(root.querySelectorAll('a[href], button:not([disabled])')).filter((el) => el.offsetParent !== null);
+    Array.prototype.slice.call(root.querySelectorAll(FOCUSABLE_SELECTOR)).filter((el) => el.offsetParent !== null);
+
+  const SUCCESS_CLASS = 'modal--success';
 
   const openModal = (openerEl) => {
     const modal = getModal();
     if (!modal) return;
     focusReturnEl = openerEl || null;
+    modal.classList.remove(SUCCESS_CLASS);
     modal.classList.add(MODAL_OPEN_CLASS);
     modal.setAttribute('aria-hidden', 'false');
     document.body.style.overflow = 'hidden';
@@ -234,6 +236,13 @@
     document.body.style.overflow = '';
     if (focusReturnEl && typeof focusReturnEl.focus === 'function') focusReturnEl.focus();
     focusReturnEl = null;
+    /* Сброс успеха после полного скрытия модалки, чтобы не мелькала форма */
+    setTimeout(() => {
+      modal.classList.remove(SUCCESS_CLASS);
+      modal.setAttribute('aria-labelledby', 'booking-modal-title');
+      const successEl = document.getElementById('booking-success');
+      if (successEl) successEl.setAttribute('hidden', '');
+    }, 350);
   };
 
   const handleModalKeyDown = (evt) => {
@@ -315,7 +324,15 @@
 
       [nameField, phoneField, privacyField].forEach((f) => f && f.classList.remove(INVALID_CLASS));
       if (nameOk && phoneOk && privacyOk) {
-        closeModal();
+        const modal = getModal();
+        const successEl = document.getElementById('booking-success');
+        if (modal && successEl) {
+          modal.classList.add(SUCCESS_CLASS);
+          modal.setAttribute('aria-labelledby', 'booking-success-text');
+          successEl.removeAttribute('hidden');
+          const successCloseBtn = modal.querySelector('.modal__success-close');
+          if (successCloseBtn) setTimeout(() => successCloseBtn.focus(), 50);
+        }
         return;
       }
       if (!nameOk && nameField) nameField.classList.add(INVALID_CLASS);
@@ -330,13 +347,18 @@
 
     const backdrop = modal.querySelector('.modal__backdrop');
     const closeBtn = modal.querySelector('.modal__close-btn');
+    const successCloseBtn = modal.querySelector('.modal__success-close');
 
-    document.addEventListener('open-booking-modal', () => {
+    if (successCloseBtn) successCloseBtn.addEventListener('click', closeModal);
+
+    document.addEventListener('open-booking-modal', (evt) => {
       const priceEl = document.getElementById('booking-modal-price');
       const totalBlock = document.querySelector('.total-price-block');
       if (priceEl && totalBlock) priceEl.textContent = (totalBlock.textContent || '').trim() || '—';
-      openModal(null);
+      const opener = evt.detail && evt.detail.opener;
+      openModal(opener || null);
     });
+
     initBookingForm(modal);
 
     if (backdrop) backdrop.addEventListener('click', closeModal);
@@ -390,7 +412,7 @@
         }
       }
       let activeId = activeSection ? activeSection.id : null;
-      if (activeId === 'services') activeId = 'prices';
+      if (activeId === 'services') activeId = null;
       links.forEach((link) => {
         const href = link.getAttribute('href') || '';
         link.classList.toggle('active', href === '#' + activeId);
@@ -451,87 +473,78 @@
 })();
 
 /**
- * Calculator check bar:
- * - Mobile: появляется, когда блок калькулятора виден на 50% и более; полоска внизу по всей ширине.
- * - Desktop: чек справа по центру в блоке калькулятора; при скролле вниз — полоска внизу справа (~¼ ширины).
+ * Shared utils: header height (used by calc check bar and desktop nav).
+ * Calculator check bar + Desktop nav — одна IIFE с общей getHeaderHeight.
  */
 (function () {
   'use strict';
 
-  const header = document.querySelector('.header');
-  const calcSection = document.getElementById('calculator');
-  if (!calcSection) return;
-
-  const getHeaderHeight = () => (header ? header.getBoundingClientRect().height : 80);
-
-  let mobileVisible = false;
-  let desktopStripVisible = false;
-
-  const setMobileVisible = (value) => {
-    if (mobileVisible === value) return;
-    mobileVisible = value;
-    document.body.classList.toggle('calc-check-visible', value);
-  };
-
-  const setDesktopStripVisible = (value) => {
-    if (desktopStripVisible === value) return;
-    desktopStripVisible = value;
-    document.body.classList.toggle('calc-check-strip-desktop', value);
-  };
-
-  const update = () => {
-    const calcRect = calcSection.getBoundingClientRect();
-    const headerH = getHeaderHeight();
-
-    if (window.matchMedia('(max-width: 768px)').matches) {
-      setDesktopStripVisible(false);
-      const h = calcRect.height;
-      if (h <= 0) {
-        setMobileVisible(false);
-      } else {
-        const visibleTop = Math.max(calcRect.top, 0);
-        const visibleBottom = Math.min(calcRect.bottom, window.innerHeight);
-        const visibleHeight = Math.max(0, visibleBottom - visibleTop);
-        const ratio = visibleHeight / h;
-        setMobileVisible(ratio >= 0.5);
-      }
-      return;
-    }
-    setMobileVisible(false);
-    const titleReachedHeader = calcRect.top <= headerH;
-    setDesktopStripVisible(titleReachedHeader);
-  };
-
-  window.addEventListener('scroll', update, { passive: true });
-  window.addEventListener('resize', update);
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', update);
-  } else {
-    update();
-  }
-})();
-
-/**
- * Desktop nav — подсветка пункта меню, когда соответствующий блок виден на 70% и более;
- * при клике — прокрутка так, чтобы целевой блок открывался полностью (предыдущий не виден).
- */
-(function () {
-  'use strict';
-
-  const SECTION_IDS = ['calculator', 'prices', 'reviews', 'contacts'];
-  const VISIBLE_RATIO = 0.7;
+  const DEFAULT_HEADER_HEIGHT = 80;
 
   const getHeaderHeight = () => {
     const header = document.querySelector('.header');
-    return header ? header.getBoundingClientRect().height : 80;
+    return header ? header.getBoundingClientRect().height : DEFAULT_HEADER_HEIGHT;
   };
+
+  /* ----- Calculator check bar ----- */
+  const calcSection = document.getElementById('calculator');
+  if (calcSection) {
+    let mobileVisible = false;
+    let desktopStripVisible = false;
+
+    const setMobileVisible = (value) => {
+      if (mobileVisible === value) return;
+      mobileVisible = value;
+      document.body.classList.toggle('calc-check-visible', value);
+    };
+
+    const setDesktopStripVisible = (value) => {
+      if (desktopStripVisible === value) return;
+      desktopStripVisible = value;
+      document.body.classList.toggle('calc-check-strip-desktop', value);
+    };
+
+    const updateCalcBar = () => {
+      const calcRect = calcSection.getBoundingClientRect();
+      const headerH = getHeaderHeight();
+
+      if (window.matchMedia('(max-width: 768px)').matches) {
+        setDesktopStripVisible(false);
+        const h = calcRect.height;
+        if (h <= 0) {
+          setMobileVisible(false);
+        } else {
+          const visibleTop = Math.max(calcRect.top, 0);
+          const visibleBottom = Math.min(calcRect.bottom, window.innerHeight);
+          const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+          const ratio = visibleHeight / h;
+          setMobileVisible(ratio >= 0.5);
+        }
+        return;
+      }
+      setMobileVisible(false);
+      const titleReachedHeader = calcRect.top <= headerH;
+      setDesktopStripVisible(titleReachedHeader);
+    };
+
+    window.addEventListener('scroll', updateCalcBar, { passive: true });
+    window.addEventListener('resize', updateCalcBar);
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', updateCalcBar);
+    } else {
+      updateCalcBar();
+    }
+  }
+
+  /* ----- Desktop nav ----- */
+  const SECTION_IDS = ['calculator', 'prices', 'reviews', 'contacts'];
+  const VISIBLE_RATIO = 0.7;
 
   const updateActiveNav = () => {
     if (!window.matchMedia('(min-width: 769px)').matches) return;
-    const header = document.querySelector('.header');
     const nav = document.querySelector('.desktop-nav');
-    if (!header || !nav) return;
-    const headerH = header.getBoundingClientRect().height;
+    if (!nav) return;
+    const headerH = getHeaderHeight();
     const viewportTop = headerH;
     const viewportBottom = window.innerHeight;
     const viewportHeight = viewportBottom - viewportTop;
