@@ -1913,10 +1913,7 @@ main {
 }
 
 .reviews__card-source {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: auto;
+  display: none;
 }
 
 .reviews__card-source svg,
@@ -1965,10 +1962,6 @@ main {
     margin-top: auto;
     justify-content: space-between;
     width: 100%;
-  }
-
-  .reviews__card-source {
-    margin-left: auto;
   }
 
   .reviews__card-img {

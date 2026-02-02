@@ -398,7 +398,7 @@
 
 /**
  * Calculator check bar:
- * - Mobile: появляется, когда заголовок «Узнай точную стоимость» доходит до шапки; полоска внизу по всей ширине.
+ * - Mobile: появляется, когда блок калькулятора виден на 50% и более; полоска внизу по всей ширине.
  * - Desktop: чек справа по центру в блоке калькулятора; при скролле вниз — полоска внизу справа (~¼ ширины).
  */
 (function () {
@@ -428,14 +428,23 @@
   const update = () => {
     const calcRect = calcSection.getBoundingClientRect();
     const headerH = getHeaderHeight();
-    const titleReachedHeader = calcRect.top <= headerH;
 
     if (window.matchMedia('(max-width: 768px)').matches) {
       setDesktopStripVisible(false);
-      setMobileVisible(titleReachedHeader);
+      const h = calcRect.height;
+      if (h <= 0) {
+        setMobileVisible(false);
+      } else {
+        const visibleTop = Math.max(calcRect.top, 0);
+        const visibleBottom = Math.min(calcRect.bottom, window.innerHeight);
+        const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+        const ratio = visibleHeight / h;
+        setMobileVisible(ratio >= 0.5);
+      }
       return;
     }
     setMobileVisible(false);
+    const titleReachedHeader = calcRect.top <= headerH;
     setDesktopStripVisible(titleReachedHeader);
   };
 
