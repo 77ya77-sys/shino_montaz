@@ -174,6 +174,29 @@
       setOpen(false);
     };
 
+    const handleNavLinkClick = (evt) => {
+      const link = evt.currentTarget;
+      const href = link.getAttribute('href');
+      if (!href || href.charAt(0) !== '#') {
+        handleClose();
+        return;
+      }
+      const id = href.slice(1);
+      const target = document.getElementById(id);
+      if (!target) {
+        handleClose();
+        return;
+      }
+      evt.preventDefault();
+      handleClose();
+      setTimeout(() => {
+        const headerH = header.offsetHeight || 56;
+        const targetTop = target.getBoundingClientRect().top + window.scrollY;
+        const scrollTop = targetTop - headerH;
+        window.scrollTo({ top: Math.max(0, scrollTop), behavior: 'smooth' });
+      }, 350);
+    };
+
     const handleKeyDown = (evt) => {
       if (evt.key !== 'Escape') return;
       handleClose();
@@ -181,7 +204,7 @@
 
     burger.addEventListener('click', handleBurgerClick);
     nav.querySelectorAll('.nav-link').forEach((link) => {
-      link.addEventListener('click', handleClose);
+      link.addEventListener('click', handleNavLinkClick);
     });
     document.addEventListener('keydown', (evt) => {
       if (evt.key !== 'Escape' || !header.classList.contains(HEADER_OPEN_CLASS)) return;
@@ -228,18 +251,32 @@
     if (first) setTimeout(() => first.focus(), 50);
   };
 
+  const isInViewport = (el) => {
+    if (!el || !el.getBoundingClientRect) return false;
+    const rect = el.getBoundingClientRect();
+    return rect.top >= 0 && rect.left >= 0 && rect.bottom <= window.innerHeight && rect.right <= window.innerWidth;
+  };
+
   const closeModal = () => {
     const modal = getModal();
     if (!modal) return;
     modal.classList.remove(MODAL_OPEN_CLASS);
     modal.setAttribute('aria-hidden', 'true');
     document.body.style.overflow = '';
-    if (focusReturnEl && typeof focusReturnEl.focus === 'function') focusReturnEl.focus();
+    if (focusReturnEl && typeof focusReturnEl.focus === 'function') {
+      if (isInViewport(focusReturnEl)) {
+        focusReturnEl.focus();
+      } else {
+        const skipLink = document.querySelector('.skip-link');
+        if (skipLink) skipLink.focus();
+      }
+    }
     focusReturnEl = null;
     /* Сброс успеха после полного скрытия модалки, чтобы не мелькала форма */
     setTimeout(() => {
       modal.classList.remove(SUCCESS_CLASS);
       modal.setAttribute('aria-labelledby', 'booking-modal-title');
+      modal.removeAttribute('aria-label');
       const successEl = document.getElementById('booking-success');
       if (successEl) successEl.setAttribute('hidden', '');
     }, 350);
@@ -284,7 +321,11 @@
     const privacyField = privacyCheckbox.closest('.modal__field');
 
     const clearInvalid = (field) => {
-      if (field) field.classList.remove(INVALID_CLASS);
+      if (field) {
+        field.classList.remove(INVALID_CLASS);
+        const input = field.querySelector('input');
+        if (input) input.removeAttribute('aria-invalid');
+      }
     };
 
     const getPhoneDigits = (value) => {
@@ -329,15 +370,25 @@
         if (modal && successEl) {
           modal.classList.add(SUCCESS_CLASS);
           modal.setAttribute('aria-labelledby', 'booking-success-text');
+          modal.setAttribute('aria-label', 'Заявка отправлена');
           successEl.removeAttribute('hidden');
           const successCloseBtn = modal.querySelector('.modal__success-close');
           if (successCloseBtn) setTimeout(() => successCloseBtn.focus(), 50);
         }
         return;
       }
-      if (!nameOk && nameField) nameField.classList.add(INVALID_CLASS);
-      if (!phoneOk && phoneField) phoneField.classList.add(INVALID_CLASS);
-      if (!privacyOk && privacyField) privacyField.classList.add(INVALID_CLASS);
+      if (!nameOk && nameField) {
+        nameField.classList.add(INVALID_CLASS);
+        nameInput.setAttribute('aria-invalid', 'true');
+      }
+      if (!phoneOk && phoneField) {
+        phoneField.classList.add(INVALID_CLASS);
+        phoneInput.setAttribute('aria-invalid', 'true');
+      }
+      if (!privacyOk && privacyField) {
+        privacyField.classList.add(INVALID_CLASS);
+        privacyCheckbox.setAttribute('aria-invalid', 'true');
+      }
     });
   };
 
@@ -381,7 +432,8 @@
 
   const HEADER_OFFSET = 100;
   const NAV_SELECTOR = '.header__nav';
-  const SECTION_IDS = ['calculator', 'prices', 'services', 'reviews', 'contacts'];
+  /* Только секции, на которые есть ссылки в мобильном меню (нет #services) */
+  const SECTION_IDS = ['calculator', 'prices', 'reviews', 'contacts'];
 
   const initScrollSpy = () => {
     const nav = document.querySelector(NAV_SELECTOR);
@@ -411,8 +463,7 @@
           activeSection = sections.find((s) => s.getBoundingClientRect().top >= headerOffset) || sections[0];
         }
       }
-      let activeId = activeSection ? activeSection.id : null;
-      if (activeId === 'services') activeId = null;
+      const activeId = activeSection ? activeSection.id : null;
       links.forEach((link) => {
         const href = link.getAttribute('href') || '';
         link.classList.toggle('active', href === '#' + activeId);
@@ -451,10 +502,10 @@
     const nextBtn = document.querySelector('.reviews__arrow--next');
     if (!carousel || !prevBtn || !nextBtn) return;
 
+    const CAROUSEL_GAP = 24;
     const getStep = () => {
       const card = carousel.querySelector('.reviews__card');
-      const gap = 24;
-      return card ? card.offsetWidth + gap : carousel.clientWidth * 0.5;
+      return card ? card.offsetWidth + CAROUSEL_GAP : carousel.clientWidth * 0.5;
     };
 
     prevBtn.addEventListener('click', () => {
@@ -490,6 +541,7 @@
   const calcSection = document.getElementById('calculator');
   if (calcSection) {
     let mobileVisible = false;
+    let mobileStickbarEverShown = false; /* раз показали (калькулятор ≥55%) — не скрываем при скролле вниз; скрываем только когда доверху (калькулятор снова <55%) */
     let desktopStripVisible = false;
 
     const setMobileVisible = (value) => {
@@ -508,23 +560,43 @@
       const calcRect = calcSection.getBoundingClientRect();
       const headerH = getHeaderHeight();
 
+      const CALC_VISIBLE_RATIO = 0.55; /* мобильная: стикбар появляется при 55% калькулятора, ниже крутит — виден всегда; доверху (калькулятор <55%) — исчезает */
       if (window.matchMedia('(max-width: 768px)').matches) {
         setDesktopStripVisible(false);
         const h = calcRect.height;
         if (h <= 0) {
-          setMobileVisible(false);
+          if (calcRect.top > 0) setMobileVisible(false);
+          else if (mobileStickbarEverShown) setMobileVisible(true);
         } else {
           const visibleTop = Math.max(calcRect.top, 0);
           const visibleBottom = Math.min(calcRect.bottom, window.innerHeight);
           const visibleHeight = Math.max(0, visibleBottom - visibleTop);
           const ratio = visibleHeight / h;
-          setMobileVisible(ratio >= 0.5);
+          if (ratio >= CALC_VISIBLE_RATIO) {
+            mobileStickbarEverShown = true;
+            setMobileVisible(true);
+          } else if (calcRect.top > 0) {
+            setMobileVisible(false);
+          } else if (mobileStickbarEverShown) {
+            setMobileVisible(true);
+          }
         }
         return;
       }
+      mobileStickbarEverShown = false;
       setMobileVisible(false);
-      const titleReachedHeader = calcRect.top <= headerH;
-      setDesktopStripVisible(titleReachedHeader);
+      const DESKTOP_STRIP_HIDE_RATIO = 0.45; /* чек в сайдбаре виден, пока калькулятор виден >45%; при видимости ≤45% чек исчезает и появляется стикбар */
+      const h = calcRect.height;
+      let stripShow = false;
+      const pastMainBlock = window.scrollY >= calcSection.offsetTop; /* прокрутили до калькулятора — не на главном блоке; на главном блоке стикбара нет */
+      if (pastMainBlock && h > 0) {
+        const visibleTop = Math.max(calcRect.top, 0);
+        const visibleBottom = Math.min(calcRect.bottom, window.innerHeight);
+        const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+        const ratio = visibleHeight / h;
+        stripShow = ratio < DESKTOP_STRIP_HIDE_RATIO;
+      }
+      setDesktopStripVisible(stripShow);
     };
 
     window.addEventListener('scroll', updateCalcBar, { passive: true });
