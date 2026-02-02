@@ -108,7 +108,7 @@
 
   const handleCalculatorChange = (form, resultEl) => {
     const total = calculateTotal(form);
-    resultEl.textContent = total != null ? 'Итого: ' + formatPrice(total) : '—';
+    resultEl.textContent = total != null ? formatPrice(total) : '—';
     updateServiceList(form);
   };
 
@@ -360,5 +360,194 @@
     document.addEventListener('DOMContentLoaded', initScrollSpy);
   } else {
     initScrollSpy();
+  }
+})();
+
+/**
+ * Reviews carousel — prev/next arrows (desktop only, CSS hides on mobile)
+ */
+(function () {
+  'use strict';
+
+  const initReviewsArrows = () => {
+    const carousel = document.getElementById('reviews-carousel');
+    const prevBtn = document.querySelector('.reviews__arrow--prev');
+    const nextBtn = document.querySelector('.reviews__arrow--next');
+    if (!carousel || !prevBtn || !nextBtn) return;
+
+    const getStep = () => {
+      const card = carousel.querySelector('.reviews__card');
+      const gap = 24;
+      return card ? card.offsetWidth + gap : carousel.clientWidth * 0.5;
+    };
+
+    prevBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: -getStep(), behavior: 'smooth' });
+    });
+    nextBtn.addEventListener('click', () => {
+      carousel.scrollBy({ left: getStep(), behavior: 'smooth' });
+    });
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReviewsArrows);
+  } else {
+    initReviewsArrows();
+  }
+})();
+
+/**
+ * Calculator check bar:
+ * - Mobile: появляется, когда заголовок «Узнай точную стоимость» доходит до шапки; полоска внизу по всей ширине.
+ * - Desktop: чек справа по центру в блоке калькулятора; при скролле вниз — полоска внизу справа (~¼ ширины).
+ */
+(function () {
+  'use strict';
+
+  const header = document.querySelector('.header');
+  const calcSection = document.getElementById('calculator');
+  if (!calcSection) return;
+
+  const getHeaderHeight = () => (header ? header.getBoundingClientRect().height : 80);
+
+  let mobileVisible = false;
+  let desktopStripVisible = false;
+
+  const setMobileVisible = (value) => {
+    if (mobileVisible === value) return;
+    mobileVisible = value;
+    document.body.classList.toggle('calc-check-visible', value);
+  };
+
+  const setDesktopStripVisible = (value) => {
+    if (desktopStripVisible === value) return;
+    desktopStripVisible = value;
+    document.body.classList.toggle('calc-check-strip-desktop', value);
+  };
+
+  const update = () => {
+    const calcRect = calcSection.getBoundingClientRect();
+    const headerH = getHeaderHeight();
+    const titleReachedHeader = calcRect.top <= headerH;
+
+    if (window.matchMedia('(max-width: 768px)').matches) {
+      setDesktopStripVisible(false);
+      setMobileVisible(titleReachedHeader);
+      return;
+    }
+    setMobileVisible(false);
+    setDesktopStripVisible(titleReachedHeader);
+  };
+
+  window.addEventListener('scroll', update, { passive: true });
+  window.addEventListener('resize', update);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', update);
+  } else {
+    update();
+  }
+})();
+
+/**
+ * Desktop nav — подсветка пункта меню, когда соответствующий блок виден на 70% и более;
+ * при клике — прокрутка так, чтобы целевой блок открывался полностью (предыдущий не виден).
+ */
+(function () {
+  'use strict';
+
+  const SECTION_IDS = ['calculator', 'prices', 'reviews', 'contacts'];
+  const VISIBLE_RATIO = 0.7;
+
+  const getHeaderHeight = () => {
+    const header = document.querySelector('.header');
+    return header ? header.getBoundingClientRect().height : 80;
+  };
+
+  const updateActiveNav = () => {
+    if (!window.matchMedia('(min-width: 769px)').matches) return;
+    const header = document.querySelector('.header');
+    const nav = document.querySelector('.desktop-nav');
+    if (!header || !nav) return;
+    const headerH = header.getBoundingClientRect().height;
+    const viewportTop = headerH;
+    const viewportBottom = window.innerHeight;
+    const viewportHeight = viewportBottom - viewportTop;
+
+    let bestId = SECTION_IDS[0];
+    let bestRatio = 0;
+
+    for (let i = 0; i < SECTION_IDS.length; i++) {
+      const section = document.getElementById(SECTION_IDS[i]);
+      if (!section) continue;
+      const rect = section.getBoundingClientRect();
+      const sectionTop = rect.top;
+      const sectionBottom = rect.bottom;
+      const sectionHeight = rect.height;
+      if (sectionHeight <= 0) continue;
+      const visibleTop = Math.max(sectionTop, viewportTop);
+      const visibleBottom = Math.min(sectionBottom, viewportBottom);
+      const visibleHeight = Math.max(0, visibleBottom - visibleTop);
+      const ratio = visibleHeight / sectionHeight;
+      if (ratio >= VISIBLE_RATIO && ratio > bestRatio) {
+        bestRatio = ratio;
+        bestId = SECTION_IDS[i];
+      }
+    }
+
+    if (bestRatio < VISIBLE_RATIO) {
+      const firstSection = document.getElementById(SECTION_IDS[0]);
+      const heroFullyOpen = firstSection && firstSection.getBoundingClientRect().top > viewportBottom * 0.5;
+      if (heroFullyOpen) {
+        bestId = null;
+      } else {
+        const scrollY = window.scrollY || window.pageYOffset;
+        for (let i = SECTION_IDS.length - 1; i >= 0; i--) {
+          const section = document.getElementById(SECTION_IDS[i]);
+          if (!section) continue;
+          const top = section.getBoundingClientRect().top + scrollY - headerH;
+          if (top <= scrollY) {
+            bestId = SECTION_IDS[i];
+            break;
+          }
+        }
+      }
+    }
+
+    nav.querySelectorAll('.desktop-nav__link').forEach((link) => {
+      const href = link.getAttribute('href') || '';
+      const isActive = bestId !== null && href === '#' + bestId;
+      link.classList.toggle('active', isActive);
+    });
+  };
+
+  const initNavClick = () => {
+    if (!window.matchMedia('(min-width: 769px)').matches) return;
+    const nav = document.querySelector('.desktop-nav');
+    if (!nav) return;
+    nav.querySelectorAll('.desktop-nav__link').forEach((link) => {
+      link.addEventListener('click', (e) => {
+        const href = link.getAttribute('href');
+        if (!href || href === '#' || href.length < 2) return;
+        const id = href.slice(1);
+        const section = document.getElementById(id);
+        if (!section) return;
+        e.preventDefault();
+        const headerH = getHeaderHeight();
+        const top = section.getBoundingClientRect().top + (window.scrollY || window.pageYOffset) - headerH;
+        window.scrollTo({ top: Math.max(0, top), behavior: 'smooth' });
+      });
+    });
+  };
+
+  window.addEventListener('scroll', updateActiveNav, { passive: true });
+  window.addEventListener('resize', updateActiveNav);
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', () => {
+      updateActiveNav();
+      initNavClick();
+    });
+  } else {
+    updateActiveNav();
+    initNavClick();
   }
 })();
