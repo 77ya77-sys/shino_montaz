@@ -857,6 +857,7 @@ ul {
 
   body.calc-check-visible .calculator__check .total-price-block {
     margin-bottom: 0 !important;
+    margin-left: 15px !important;
     padding: 0 !important;
     font-size: var(--font-size-xl);
     font-weight: 700;
