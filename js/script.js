@@ -699,3 +699,117 @@
     initNavClick();
   }
 })();
+
+/**
+ * Phone Modal — показ номера телефона на десктопе
+ * На мобильных устройствах работает обычный tel: протокол
+ */
+(function () {
+  'use strict';
+
+  const phoneModal = document.getElementById('phone-modal');
+  if (!phoneModal) return;
+
+  const backdrop = phoneModal.querySelector('.modal__backdrop');
+  const closeBtn = phoneModal.querySelector('.modal__close-btn');
+  const phoneLinks = document.querySelectorAll('a[href^="tel:"]');
+
+  let lastFocusedElement = null;
+
+  // Определяем, мобильное устройство или десктоп
+  const isMobileDevice = () => {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) 
+      || window.matchMedia('(max-width: 768px)').matches;
+  };
+
+  // Открыть модальное окно
+  const openPhoneModal = () => {
+    phoneModal.classList.add('modal--open');
+    phoneModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+    
+    // Фокус на номер телефона
+    const phoneNumber = phoneModal.querySelector('.modal__phone-number');
+    if (phoneNumber) {
+      setTimeout(() => phoneNumber.focus(), 100);
+    }
+  };
+
+  // Закрыть модальное окно
+  const closePhoneModal = () => {
+    phoneModal.classList.remove('modal--open');
+    phoneModal.setAttribute('aria-hidden', 'true');
+    document.body.style.overflow = '';
+    
+    // Вернуть фокус на элемент, который открыл модальное окно
+    if (lastFocusedElement && typeof lastFocusedElement.focus === 'function') {
+      lastFocusedElement.focus();
+    }
+    lastFocusedElement = null;
+  };
+
+  // Обработчик клика на телефонные ссылки
+  phoneLinks.forEach((link) => {
+    link.addEventListener('click', (e) => {
+      // На мобильных устройствах оставляем стандартное поведение (tel:)
+      if (isMobileDevice()) {
+        return; // Позволяем браузеру открыть набор номера
+      }
+      
+      // На десктопе показываем модальное окно
+      e.preventDefault();
+      lastFocusedElement = link;
+      openPhoneModal();
+    });
+  });
+
+  // Закрытие по клику на backdrop
+  if (backdrop) {
+    backdrop.addEventListener('click', closePhoneModal);
+  }
+
+  // Закрытие по клику на кнопку закрытия
+  if (closeBtn) {
+    closeBtn.addEventListener('click', closePhoneModal);
+  }
+
+  // Закрытие по ESC
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && phoneModal.classList.contains('modal--open')) {
+      closePhoneModal();
+    }
+  });
+
+  // Копирование номера при клике (опционально)
+  const phoneNumber = phoneModal.querySelector('.modal__phone-number');
+  if (phoneNumber) {
+    phoneNumber.addEventListener('click', (e) => {
+      e.preventDefault();
+      const phoneText = phoneNumber.textContent || phoneNumber.innerText;
+      const cleanPhone = phoneText.replace(/\D/g, ''); // Убираем все нецифровые символы
+      
+      // Копируем в буфер обмена
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText('+' + cleanPhone).then(() => {
+          // Показываем уведомление
+          const hint = phoneModal.querySelector('.modal__phone-hint');
+          if (hint) {
+            const originalText = hint.textContent;
+            hint.textContent = '✓ Номер скопирован!';
+            hint.style.color = 'var(--color-accent)';
+            setTimeout(() => {
+              hint.textContent = originalText;
+              hint.style.color = '';
+            }, 2000);
+          }
+        }).catch(() => {
+          // Если копирование не удалось, показываем уведомление
+          const hint = phoneModal.querySelector('.modal__phone-hint');
+          if (hint) {
+            hint.textContent = 'Выделите и скопируйте номер вручную';
+          }
+        });
+      }
+    });
+  }
+})();

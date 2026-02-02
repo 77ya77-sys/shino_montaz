@@ -2344,6 +2344,17 @@ main {
   outline-offset: 2px;
 }
 
+/* Убираем желтый фон автозаполнения */
+.modal__input:-webkit-autofill,
+.modal__input:-webkit-autofill:hover,
+.modal__input:-webkit-autofill:focus,
+.modal__input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px var(--color-bg-card) inset !important;
+  -webkit-text-fill-color: var(--color-text) !important;
+  background-color: var(--color-bg-card) !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
 .modal__phone-wrap {
   display: flex;
   align-items: center;
@@ -2374,6 +2385,17 @@ main {
 
 .modal__input--phone:focus {
   outline: none;
+}
+
+/* Убираем желтый фон автозаполнения для поля телефона */
+.modal__input--phone:-webkit-autofill,
+.modal__input--phone:-webkit-autofill:hover,
+.modal__input--phone:-webkit-autofill:focus,
+.modal__input--phone:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important;
+  -webkit-text-fill-color: var(--color-text) !important;
+  background-color: transparent !important;
+  transition: background-color 5000s ease-in-out 0s;
 }
 
 .modal__phone-wrap:focus-within .modal__input--phone {
@@ -2557,6 +2579,73 @@ main {
   display: block;
   width: 18px;
   height: 18px;
+}
+
+/* ============================================
+   Phone Modal — показ номера на десктопе
+   ============================================ */
+.modal--phone .modal__box {
+  max-width: min(26rem, calc(100vw - 2 * var(--spacing-md)));
+  min-width: min(22rem, calc(100vw - 2 * var(--spacing-md)));
+  text-align: center;
+}
+
+.modal__title--phone {
+  text-align: center;
+  padding-right: 0;
+  margin-bottom: var(--spacing-xl);
+}
+
+.modal__phone-display {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-lg);
+  padding: var(--spacing-lg) 0;
+}
+
+.modal__phone-icon {
+  color: var(--color-accent);
+  flex-shrink: 0;
+}
+
+.modal__phone-number {
+  font-size: clamp(1.25rem, 4vw, 2rem);
+  font-weight: 700;
+  color: var(--color-text-heading);
+  text-decoration: none;
+  letter-spacing: 0.02em;
+  transition: color var(--transition-fast);
+  user-select: all;
+  cursor: pointer;
+  white-space: nowrap;
+  overflow: visible;
+}
+
+.modal__phone-number:hover,
+.modal__phone-number:focus-visible {
+  color: var(--color-accent);
+  outline: 2px solid var(--color-accent);
+  outline-offset: 4px;
+  border-radius: var(--radius-sm);
+}
+
+.modal__phone-hint {
+  margin: 0;
+  font-size: var(--font-size-sm);
+  color: var(--color-text-muted);
+  line-height: 1.4;
+}
+
+/* Очень маленькие экраны: уменьшаем размер шрифта, чтобы номер точно поместился */
+@media (max-width: 400px) {
+  .modal__phone-number {
+    font-size: 1.125rem;
+  }
+  
+  .modal--phone .modal__box {
+    min-width: calc(100vw - 2 * var(--spacing-md));
+  }
 }
 
 /* ============================================
