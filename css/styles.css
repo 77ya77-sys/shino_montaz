@@ -2347,19 +2347,23 @@ main {
   outline-offset: 2px;
 }
 
-/* COMBINED AUTOFILL FIX — Chrome Mobile + Yandex Browser (input bg = --color-bg-card #151515) */
+/* YANDEX & CHROME AGGRESSIVE FIX — input bg = --color-bg-card #151515 */
 .modal__input:-webkit-autofill,
 .modal__input:-webkit-autofill:hover,
 .modal__input:-webkit-autofill:focus,
 .modal__input:-webkit-autofill:active {
-  /* 1. For Chrome/Safari: delay the yellow coloring */
-  transition: background-color 9999s ease-in-out 0s !important;
-  /* 2. For Yandex/Others: force paint the background (actual input color from design) */
+  /* 1. Kill any background images/gradients Yandex might add */
+  background-image: none !important;
+  background-size: 0 0 !important;
+  /* 2. Force the solid color override */
   -webkit-box-shadow: 0 0 0 1000px #151515 inset !important;
   box-shadow: 0 0 0 1000px #151515 inset !important;
-  /* 3. Text and cursor color */
+  /* 3. Force text color */
   -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
   caret-color: #fff !important;
+  /* 4. Keep the transition hack as a fallback */
+  transition: background-color 9999s ease-in-out 0s !important;
 }
 
 .modal__phone-wrap {
@@ -2396,23 +2400,26 @@ main {
   outline: none;
 }
 
-/* COMBINED AUTOFILL FIX — phone input (same bg #151515 as .modal__phone-wrap / --color-bg-card) */
+/* YANDEX & CHROME AGGRESSIVE FIX — phone input (bg #151515 = --color-bg-card) */
 .modal__input--phone:-webkit-autofill,
 .modal__input--phone:-webkit-autofill:hover,
 .modal__input--phone:-webkit-autofill:focus,
 .modal__input--phone:-webkit-autofill:active {
-  transition: background-color 9999s ease-in-out 0s !important;
+  background-image: none !important;
+  background-size: 0 0 !important;
   -webkit-box-shadow: 0 0 0 1000px #151515 inset !important;
   box-shadow: 0 0 0 1000px #151515 inset !important;
   -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
   caret-color: #fff !important;
+  transition: background-color 9999s ease-in-out 0s !important;
 }
 
 .modal__phone-wrap:focus-within .modal__input--phone {
   outline: none;
 }
 
-/* COMBINED AUTOFILL FIX — higher specificity when modal is open (Chrome + Yandex) */
+/* YANDEX & CHROME AGGRESSIVE FIX — higher specificity when modal is open */
 #booking-modal.modal--open .modal__input:-webkit-autofill,
 #booking-modal.modal--open .modal__input:-webkit-autofill:hover,
 #booking-modal.modal--open .modal__input:-webkit-autofill:focus,
@@ -2421,11 +2428,14 @@ main {
 #booking-modal.modal--open .modal__input--phone:-webkit-autofill:hover,
 #booking-modal.modal--open .modal__input--phone:-webkit-autofill:focus,
 #booking-modal.modal--open .modal__input--phone:-webkit-autofill:active {
-  transition: background-color 9999s ease-in-out 0s !important;
+  background-image: none !important;
+  background-size: 0 0 !important;
   -webkit-box-shadow: 0 0 0 1000px #151515 inset !important;
   box-shadow: 0 0 0 1000px #151515 inset !important;
   -webkit-text-fill-color: #fff !important;
+  color: #fff !important;
   caret-color: #fff !important;
+  transition: background-color 9999s ease-in-out 0s !important;
 }
 
 .modal__checkbox {
