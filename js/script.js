@@ -249,6 +249,11 @@
     document.body.style.overflow = 'hidden';
     const first = getFocusables(modal)[0];
     if (first) setTimeout(() => first.focus(), 50);
+    /* Принудительная перерисовка полей — помогает убрать жёлтый фон автозаполнения на iOS */
+    const inputs = modal.querySelectorAll('.modal__input');
+    requestAnimationFrame(() => {
+      inputs.forEach((input) => { void input.offsetHeight; });
+    });
   };
 
   const isInViewport = (el) => {
@@ -350,11 +355,22 @@
       clearInvalid(phoneField);
     };
 
+    /* После ввода/автозаполнения — принудительная перерисовка, чтобы убрать жёлтый фон на iOS */
+    const forceAutofillRepaint = () => {
+      requestAnimationFrame(() => {
+        void phoneInput.offsetHeight;
+        void nameInput.offsetHeight;
+      });
+    };
     phoneInput.addEventListener('input', applyPhoneMask);
     phoneInput.addEventListener('paste', () => setTimeout(applyPhoneMask, 0));
     phoneInput.addEventListener('change', applyPhoneMask);
+    phoneInput.addEventListener('change', forceAutofillRepaint);
+    phoneInput.addEventListener('input', forceAutofillRepaint);
     nameInput.addEventListener('input', () => clearInvalid(nameField));
     nameInput.addEventListener('change', () => clearInvalid(nameField));
+    nameInput.addEventListener('change', forceAutofillRepaint);
+    nameInput.addEventListener('input', forceAutofillRepaint);
     privacyCheckbox.addEventListener('change', () => clearInvalid(privacyField));
 
     form.addEventListener('submit', (evt) => {
