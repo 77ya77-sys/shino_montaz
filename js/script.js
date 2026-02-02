@@ -249,11 +249,23 @@
     document.body.style.overflow = 'hidden';
     const first = getFocusables(modal)[0];
     if (first) setTimeout(() => first.focus(), 50);
-    /* Принудительная перерисовка полей — помогает убрать жёлтый фон автозаполнения на iOS */
-    const inputs = modal.querySelectorAll('.modal__input');
-    requestAnimationFrame(() => {
-      inputs.forEach((input) => { void input.offsetHeight; });
-    });
+    /* Снять жёлтую заливку автозаполнения: при открытии и через 300 мс (на случай уже подставленных данных) */
+    const nameInp = modal.querySelector('#booking-name');
+    const phoneInp = modal.querySelector('#booking-phone');
+    const clearHighlights = () => {
+      if (nameInp && nameInp.value) {
+        const v = nameInp.value;
+        nameInp.value = '';
+        requestAnimationFrame(() => { nameInp.value = v; });
+      }
+      if (phoneInp && phoneInp.value) {
+        const v = phoneInp.value;
+        phoneInp.value = '';
+        requestAnimationFrame(() => { phoneInp.value = v; });
+      }
+    };
+    requestAnimationFrame(clearHighlights);
+    setTimeout(clearHighlights, 300);
   };
 
   const isInViewport = (el) => {
@@ -355,22 +367,25 @@
       clearInvalid(phoneField);
     };
 
-    /* После ввода/автозаполнения — принудительная перерисовка, чтобы убрать жёлтый фон на iOS */
-    const forceAutofillRepaint = () => {
+    /* Сброс жёлтой заливки автозаполнения: очищаем значение и восстанавливаем — браузер снимает подсветку */
+    const clearAutofillHighlight = (inputEl, afterRestore) => {
+      const saved = inputEl.value;
+      if (!saved) return;
+      inputEl.value = '';
       requestAnimationFrame(() => {
-        void phoneInput.offsetHeight;
-        void nameInput.offsetHeight;
+        inputEl.value = saved;
+        if (afterRestore) afterRestore();
       });
     };
     phoneInput.addEventListener('input', applyPhoneMask);
     phoneInput.addEventListener('paste', () => setTimeout(applyPhoneMask, 0));
     phoneInput.addEventListener('change', applyPhoneMask);
-    phoneInput.addEventListener('change', forceAutofillRepaint);
-    phoneInput.addEventListener('input', forceAutofillRepaint);
+    phoneInput.addEventListener('change', () => clearAutofillHighlight(phoneInput, applyPhoneMask));
     nameInput.addEventListener('input', () => clearInvalid(nameField));
-    nameInput.addEventListener('change', () => clearInvalid(nameField));
-    nameInput.addEventListener('change', forceAutofillRepaint);
-    nameInput.addEventListener('input', forceAutofillRepaint);
+    nameInput.addEventListener('change', () => {
+      clearInvalid(nameField);
+      clearAutofillHighlight(nameInput);
+    });
     privacyCheckbox.addEventListener('change', () => clearInvalid(privacyField));
 
     form.addEventListener('submit', (evt) => {

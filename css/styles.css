@@ -2346,19 +2346,24 @@ main {
   outline-offset: 2px;
 }
 
-/* Убираем желтый фон автозаполнения (цвет как у полей: #151515) */
+/* Убираем жёлтую заливку автозаполнения — большая внутренняя тень поверх фона браузера */
+@keyframes modalAutofillFix {
+  0%, 100% { background-color: #151515; }
+}
 .modal__input:-webkit-autofill,
 .modal__input:-webkit-autofill:hover,
 .modal__input:-webkit-autofill:focus,
 .modal__input:-webkit-autofill:active,
 .modal__input:autofill,
 .modal__input:-moz-autofill {
-  -webkit-box-shadow: 0 0 0 100vmax #151515 inset !important;
-  box-shadow: 0 0 0 100vmax #151515 inset !important;
+  -webkit-box-shadow: inset 0 0 0 9999px #151515 !important;
+  box-shadow: inset 0 0 0 9999px #151515 !important;
   -webkit-text-fill-color: #e0e0e0 !important;
   color: #e0e0e0 !important;
   background-color: #151515 !important;
-  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s !important;
+  background-image: none !important;
+  transition: background-color 5000s ease-in-out 0s !important;
+  animation: modalAutofillFix 0.001s forwards !important;
   caret-color: #e0e0e0 !important;
 }
 
@@ -2396,19 +2401,20 @@ main {
   outline: none;
 }
 
-/* Убираем желтый фон автозаполнения для поля телефона (тот же цвет, что и обёртка) */
+/* Убираем жёлтую заливку автозаполнения для поля телефона */
 .modal__input--phone:-webkit-autofill,
 .modal__input--phone:-webkit-autofill:hover,
 .modal__input--phone:-webkit-autofill:focus,
 .modal__input--phone:-webkit-autofill:active,
 .modal__input--phone:autofill,
 .modal__input--phone:-moz-autofill {
-  -webkit-box-shadow: 0 0 0 100vmax #151515 inset !important;
-  box-shadow: 0 0 0 100vmax #151515 inset !important;
+  -webkit-box-shadow: inset 0 0 0 9999px #151515 !important;
+  box-shadow: inset 0 0 0 9999px #151515 !important;
   -webkit-text-fill-color: #e0e0e0 !important;
   color: #e0e0e0 !important;
   background-color: #151515 !important;
-  transition: background-color 5000s ease-in-out 0s, color 5000s ease-in-out 0s !important;
+  background-image: none !important;
+  animation: modalAutofillFix 0.001s forwards !important;
   caret-color: #e0e0e0 !important;
 }
 
@@ -2416,7 +2422,7 @@ main {
   outline: none;
 }
 
-/* Повышенная специфичность при открытой модалке — убираем жёлтый автозаполнения на iOS/Safari */
+/* Повышенная специфичность при открытой модалке — убираем жёлтую заливку на iOS/Safari */
 #booking-modal.modal--open .modal__input:-webkit-autofill,
 #booking-modal.modal--open .modal__input:-webkit-autofill:hover,
 #booking-modal.modal--open .modal__input:-webkit-autofill:focus,
@@ -2425,11 +2431,12 @@ main {
 #booking-modal.modal--open .modal__input--phone:-webkit-autofill:hover,
 #booking-modal.modal--open .modal__input--phone:-webkit-autofill:focus,
 #booking-modal.modal--open .modal__input--phone:-webkit-autofill:active {
-  -webkit-box-shadow: 0 0 0 100vmax #151515 inset !important;
-  box-shadow: 0 0 0 100vmax #151515 inset !important;
+  -webkit-box-shadow: inset 0 0 0 9999px #151515 !important;
+  box-shadow: inset 0 0 0 9999px #151515 !important;
   -webkit-text-fill-color: #e0e0e0 !important;
   color: #e0e0e0 !important;
   background-color: #151515 !important;
+  background-image: none !important;
   caret-color: #e0e0e0 !important;
 }
 
