@@ -146,6 +146,22 @@ body {
   box-sizing: border-box;
 }
 
+/* Десктоп: контейнер 1440px по центру */
+@media (min-width: 1024px) {
+  .page-container {
+    max-width: 1440px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 100%;
+  }
+  .page-container .header {
+    width: 100%;
+    max-width: 1440px;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+}
+
 h1, h2, h3, h4, h5, h6 {
   color: var(--color-text-heading);
   font-weight: 700;
